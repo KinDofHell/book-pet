@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
+import { ThemeContextProvider } from "@/contexts/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Book Glossary",
@@ -18,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="uk">
-      <body>{children}</body>
+      <ThemeContextProvider>
+        <body>{children}</body>
+      </ThemeContextProvider>
     </html>
   );
 }
