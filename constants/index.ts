@@ -1,3 +1,18 @@
+export const menuLinks = [
+  {
+    label: "Головна",
+    route: "/",
+  },
+  {
+    label: "Розділи",
+    route: "/sections",
+  },
+  {
+    label: "Примітки",
+    route: "/notes",
+  },
+];
+
 export const categoryLinks = [
   {
     label: "Розділи",
