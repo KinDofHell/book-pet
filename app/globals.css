@@ -100,7 +100,13 @@
 
 body {
   font-family: "RotondaC", sans-serif;
-  height: 100vh;
+}
+
+@media screen and (min-width: 850px){
+  body{
+    height: auto;
+    min-height: 100vh;
+  }
 }
 
 @layer utilities {
@@ -114,10 +120,6 @@ body {
 
   .flex-between {
     @apply flex justify-between items-center;
-  }
-
-  .category-item{
-    @apply w-full h-full p-10 block text-2xl text-center;
   }
 
   /* Font */

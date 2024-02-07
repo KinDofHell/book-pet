@@ -23,7 +23,7 @@ const Header = () => {
           <Navbar />
         </div>
         <div className="flex-center gap-4">
-          <Button size="sm" className="bg-white">
+          <Button size="sm" className="bg-white hover:bg-white">
             <Image
               src="/assets/login.png"
               alt="login icon"
