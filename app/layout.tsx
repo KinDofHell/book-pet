@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
 import { ThemeContextProvider } from "@/contexts/ThemeContext";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Book Glossary",
@@ -18,10 +19,12 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="uk">
-      <ThemeContextProvider>
-        <body>{children}</body>
-      </ThemeContextProvider>
-    </html>
+    <ClerkProvider>
+      <html lang="uk">
+        <ThemeContextProvider>
+          <body>{children}</body>
+        </ThemeContextProvider>
+      </html>
+    </ClerkProvider>
   );
 }

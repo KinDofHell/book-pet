@@ -10,13 +10,14 @@ export default function Home() {
           alt="fantasy landscape"
           width={1920}
           height={500}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="w-full blur-[10px] relative z-10"
         />
         <div className="absolute top-0 left-0 bottom-0 z-20 w-full flex-center flex-col gap-4 tablet:gap-8">
-          <h1 className="f-unpack text-white text-2xl tracking-wide drop-shadow-lg tablet:text-5xl desktop:text-6xl backdrop-blur-md py-1 px-2">
+          <h1 className="f-unpack text-white text-2xl tracking-wide drop-shadow-lg tablet:text-5xl desktop:text-6xl">
             Відкрий для себе світ Лерхоріїв
           </h1>
-          <p className="f-unpack text-white text-xl tracking-wide tablet:text-2xl desktop:text-4xl backdrop-blur-md p-1">
+          <p className="f-unpack text-white text-xl tracking-wide tablet:text-2xl desktop:text-4xl">
             Дізнайся про нього все
           </p>
           <Button asChild size="sm">
