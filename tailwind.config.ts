@@ -53,7 +53,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         "light-primary": "#0c5db1",
-        "dark-primary": "#24315c",
+        "dark-primary": "#1f1f21",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -87,7 +87,7 @@ const config = {
         desktop: "1200px",
       },
       boxShadow: {
-        default: "0 1px 1px black",
+        default: "0 4px 10px black",
       },
     },
   },

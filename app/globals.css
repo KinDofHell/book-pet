@@ -103,15 +103,20 @@
   scroll-behavior: smooth;
 }
 
+html{
+  min-height: 100%;
+}
+
 body {
   font-family: "RotondaC";
+  min-height: 100%;
 }
 
 @media screen and (min-width: 850px){
-  body{
-    height: auto;
-    min-height: 100vh;
-  }
+  /*body{*/
+  /*  height: 100vh;*/
+  /*  min-height: 100vh;*/
+  /*}*/
 }
 
 @layer utilities {
