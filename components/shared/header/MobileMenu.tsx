@@ -17,7 +17,7 @@ const MobileMenu = () => {
       <Sheet>
         <SheetTrigger>
           <Image
-            src="/assets/burger.png"
+            src="/assets/icons/menu.svg"
             alt="burger menu icon"
             width={32}
             height={32}

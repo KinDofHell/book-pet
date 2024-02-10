@@ -112,13 +112,6 @@ body {
   min-height: 100%;
 }
 
-@media screen and (min-width: 850px){
-  /*body{*/
-  /*  height: 100vh;*/
-  /*  min-height: 100vh;*/
-  /*}*/
-}
-
 @layer utilities {
   .wrapper {
     @apply max-w-7xl desktop:mx-auto py-4 px-[15px] w-full;
@@ -157,5 +150,9 @@ body {
 
   .close-white > button > svg{
     stroke: white;
+  }
+
+  .h1-font{
+    @apply text-4xl mb-3 f-unpack tracking-wider tablet:text-5xl tablet:my-4 tablet:mb-5 desktop:text-6xl border-b-[1px] border-black dark:text-white dark:border-white;
   }
 }

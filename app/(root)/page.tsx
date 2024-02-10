@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <section className="w-full relative my-4">
         <Image
-          src="/assets/home-banner.png"
+          src="/assets/images/home-banner.png"
           alt="fantasy landscape"
           width={1920}
           height={500}
