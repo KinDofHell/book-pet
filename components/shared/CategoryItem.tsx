@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import DeleteConfirmation from "@/components/shared/DeleteConfirmation";
+import { formatDateTime } from "@/lib/utils";
 
 type CategoryItemProps = {
   id: string;
@@ -30,6 +31,19 @@ const CategoryItem = ({
           className="w-full h-full"
         />
       </Link>
+      <div className="absolute top-2 left-2 flex gap-2 items-center">
+        <span className="bg-white px-1.5 py-0.5 rounded-lg text-sm dark:bg-dark-primary dark:text-white tracking-wide">
+          {formatDateTime(lastUpdate).dateOnly}
+        </span>
+        <div className="bg-white rounded-2xl p-0.5" title="Finished">
+          <Image
+            src="/assets/icons/finished.svg"
+            alt="finished icon"
+            width={20}
+            height={20}
+          />
+        </div>
+      </div>
       <div className="absolute bg-white bottom-1 left-1/2 -translate-x-1/2 min-w-[90%] text-center py-1 px-3 dark:bg-dark-primary">
         <h2 className="text-sm tablet:text-lg dark:text-white tracking-wide">
           {title}
