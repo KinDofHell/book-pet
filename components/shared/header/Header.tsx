@@ -34,10 +34,10 @@ const Header = () => {
               className="bg-white py-1 p-2 rounded-xl hover:bg-gray-500"
             >
               <Image
-                src="/assets/login.png"
+                src="/assets/icons/login.svg"
                 alt="login icon"
-                width={32}
-                height={32}
+                width={24}
+                height={24}
               />
             </Link>
           )}
