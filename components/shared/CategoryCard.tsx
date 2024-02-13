@@ -2,13 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import DeleteConfirmation from "@/components/shared/DeleteConfirmation";
-import { auth } from "@clerk/nextjs";
-
-type CategoryCardProps = {
-  id: string;
-  title: string;
-  isUserAdmin: boolean;
-};
+import { CategoryCardProps } from "@/types";
 
 const CategoryCard = ({ id, title, isUserAdmin }: CategoryCardProps) => {
   return (

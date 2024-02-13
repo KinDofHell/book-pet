@@ -32,7 +32,7 @@ const DeleteConfirmation = ({ itemId, itemsType }: DeleteConfirmationProps) => {
       <AlertDialogTrigger>
         <Image
           src="/assets/icons/delete.svg"
-          alt="edit"
+          alt="delete icon"
           width={20}
           height={20}
         />
