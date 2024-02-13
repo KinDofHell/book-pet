@@ -19,5 +19,8 @@ jobs:
       - name: Build Application
         run: npm run build
 
+      - name: Run Tests
+        run: npm run test
+
       - name: Deploy to Vercel
         run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --yes
