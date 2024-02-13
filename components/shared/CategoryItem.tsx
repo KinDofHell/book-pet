@@ -35,14 +35,16 @@ const CategoryItem = ({
         <span className="bg-white px-1.5 py-0.5 rounded-lg text-sm dark:bg-dark-primary dark:text-white tracking-wide">
           {formatDateTime(lastUpdate).dateOnly}
         </span>
-        <div className="bg-white rounded-2xl p-0.5" title="Finished">
-          <Image
-            src="/assets/icons/finished.svg"
-            alt="finished icon"
-            width={20}
-            height={20}
-          />
-        </div>
+        {isFinished && (
+          <div className="bg-white rounded-2xl p-0.5" title="Finished">
+            <Image
+              src="/assets/icons/finished.svg"
+              alt="finished icon"
+              width={20}
+              height={20}
+            />
+          </div>
+        )}
       </div>
       <div className="absolute bg-white bottom-1 left-1/2 -translate-x-1/2 min-w-[90%] text-center py-1 px-3 dark:bg-dark-primary">
         <h2 className="text-sm tablet:text-lg dark:text-white tracking-wide">
