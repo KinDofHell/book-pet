@@ -17,6 +17,7 @@ export type CategoryItemProps = {
 
 export type TableProps = {
   data: { [key: string]: string | number | boolean };
+  className?: string;
 };
 
 export type ObjectArrayParams = {
@@ -27,3 +28,8 @@ export interface IObjectsArray {
   key: string;
   value: string | number | boolean;
 }
+
+export type AccordionBlockProps = {
+  title: string;
+  textContent: string;
+};

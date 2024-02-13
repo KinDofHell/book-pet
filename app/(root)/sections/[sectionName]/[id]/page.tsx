@@ -1,16 +1,14 @@
 import Image from "next/image";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import Table from "@/components/shared/Table";
+import AccordionBlock from "@/components/shared/AccordionBlock";
 
 const Page = () => {
   const dummyTableData = {
     Розташування: "Королівство Сентеріяда",
-    Статус: "Функціонує",
+    "Рівень печаті": "Катастрофічний",
+    Статус: "Розквіт",
+    "Місце головної послідовності": false,
+    "К-сть Лерхоріїв": 24,
   };
 
   return (
@@ -24,25 +22,35 @@ const Page = () => {
           height={800}
           className="w-full"
         />
-        <div className="mt-6">
-          <Accordion type="single" collapsible>
-            <AccordionItem
-              value="description"
-              className="bg-light-primary px-2 text-white dark:bg-dark-secondary-gradient"
-            >
-              <AccordionTrigger className="tablet:text-2xl dark:text-white">
-                Опис
-              </AccordionTrigger>
-              <AccordionContent className="tablet:text-xl dark:text-white">
-                Тестовий опис Замку Великої Загибелі Тестовий опис Замку Великої
-                Загибелі Тестовий опис Замку Великої Загибелі Тестовий опис
-                Замку Великої Загибелі.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+        <div className="mt-6 shadow-default">
+          <AccordionBlock
+            title="Опис"
+            textContent="Тестовий опис Замку Великої Загибелі Тестовий опис Замку Великої
+                    Загибелі Тестовий опис Замку Великої Загибелі Тестовий опис
+                    Замку Великої Загибелі."
+          />
+          <AccordionBlock
+            title="Історія"
+            textContent="Тестовий опис Замку Великої Загибелі Тестовий опис Замку Великої
+                    Загибелі Тестовий опис Замку Великої Загибелі Тестовий опис
+                    Замку Великої Загибелі. Тестовий опис Замку Великої Загибелі Тестовий опис Замку Великої
+                    Загибелі Тестовий опис Замку Великої Загибелі Тестовий опис
+                    Замку Великої Загибелі. Тестовий опис Замку Великої Загибелі Тестовий опис Замку Великої
+                    Загибелі Тестовий опис Замку Великої Загибелі Тестовий опис
+                    Замку Великої Загибелі."
+          />
         </div>
-        <div>
-          <Table data={dummyTableData} />
+        <div className="flex flex-wrap w-full gap-4 mt-5">
+          <Table data={dummyTableData} className="grow" />
+          <Table data={dummyTableData} className="grow" />
+        </div>
+        <div className="mt-6 shadow-default">
+          <AccordionBlock
+            title="Додатково"
+            textContent="Тестовий опис Замку Великої Загибелі Тестовий опис Замку Великої
+                    Загибелі Тестовий опис Замку Великої Загибелі Тестовий опис
+                    Замку Великої Загибелі."
+          />
         </div>
       </section>
     </article>
