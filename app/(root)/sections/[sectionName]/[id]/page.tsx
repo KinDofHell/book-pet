@@ -5,8 +5,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Table from "@/components/shared/Table";
 
 const Page = () => {
+  const dummyTableData = {
+    Розташування: "Королівство Сентеріяда",
+    Статус: "Функціонує",
+  };
+
   return (
     <article>
       <section>
@@ -34,6 +40,9 @@ const Page = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+        </div>
+        <div>
+          <Table data={dummyTableData} />
         </div>
       </section>
     </article>

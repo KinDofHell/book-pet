@@ -11,6 +11,10 @@ export const menuLinks = [
     label: "Примітки",
     route: "/notes",
   },
+  {
+    label: "Збережене",
+    route: "/saved",
+  },
 ];
 
 export const categoryLinks = [

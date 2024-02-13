@@ -2,11 +2,17 @@ import { auth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import CategoryCard from "@/components/shared/CategoryCard";
 import CategoryItem from "@/components/shared/CategoryItem";
+import Link from "next/link";
 
-const Page = () => {
+const Page = ({
+  params: { sectionName },
+}: {
+  params: { sectionName: string };
+}) => {
   const { sessionClaims } = auth();
 
   const isUserAdmin = sessionClaims?.isUserAdmin as boolean;
+  const type = sectionName;
 
   const dummyItems = [
     {
@@ -51,17 +57,18 @@ const Page = () => {
       <section className="w-full flex-center flex-col desktop:mt-6">
         <h1 className="h1-font">Локації</h1>
         {isUserAdmin && (
-          <Button
-            size="lg"
-            className="w-full max-w-[425px] uppercase tracking-wide text-black bg-white shadow-default mb-6 dark:bg-dark-primary dark:text-white hover:text-white hover:bg-light-gradient dark:hover:bg-dark-secondary-gradient"
+          <Link
+            href={`/sections/${type}/create`}
+            className="w-full inline-block py-3 px-4 text-center max-w-[425px] uppercase tracking-wide bg-white shadow-default mb-6 dark:bg-dark-primary dark:text-white text-black hover:text-white hover:bg-light-gradient dark:hover:bg-dark-secondary-gradient"
           >
             Додати Запис
-          </Button>
+          </Link>
         )}
         <div className="flex justify-center flex-wrap gap-8 w-full desktop:mt-6">
           {dummyItems?.map(({ id, title, imgUrl, lastUpdate, isFinished }) => (
             <CategoryItem
               id={id}
+              type={type}
               title={title}
               imgUrl={imgUrl}
               lastUpdate={lastUpdate}

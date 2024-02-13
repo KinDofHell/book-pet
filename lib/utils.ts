@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { IObjectsArray, ObjectArrayParams } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -48,4 +49,22 @@ export const formatDateTime = (dateString: Date) => {
     dateOnly: formattedDate,
     timeOnly: formattedTime,
   };
+};
+
+export const convertObjectToKeyValuePairs = (
+  object: ObjectArrayParams,
+): IObjectsArray[] => {
+  let result: IObjectsArray[] = [];
+
+  Object.entries(object).forEach(([key, value]) => {
+    if (
+      typeof value === "string" ||
+      typeof value === "number" ||
+      typeof value === "boolean"
+    ) {
+      result.push({ key, value });
+    }
+  });
+
+  return result;
 };

@@ -8,6 +8,7 @@ const { expect, describe, it } = require("@jest/globals");
 
 const defaultProps: CategoryCardProps = {
   id: "1",
+  type: "locations",
   title: "Test Title",
   isUserAdmin: false,
 };

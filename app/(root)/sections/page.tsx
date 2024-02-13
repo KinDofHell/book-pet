@@ -11,26 +11,32 @@ const Page = () => {
     {
       id: "1",
       title: "Test Category TestCategoryTest Test Category",
+      type: "locations",
     },
     {
       id: "2",
       title: "Test Category",
+      type: "people",
     },
     {
       id: "3",
       title: "Test Category",
+      type: "creations",
     },
     {
       id: "4",
       title: "Test Category",
+      type: "creatures",
     },
     {
       id: "5",
       title: "Test Category",
+      type: "saktra",
     },
     {
       id: "6",
       title: "Test Category",
+      type: "history",
     },
   ];
 
@@ -46,9 +52,10 @@ const Page = () => {
           </Button>
         )}
         <div className="flex justify-center flex-wrap gap-8 w-full desktop:mt-6">
-          {dummyCategories?.map(({ id, title }) => (
+          {dummyCategories?.map(({ id, title, type }) => (
             <CategoryCard
               id={id}
+              type={type}
               title={title}
               isUserAdmin={isUserAdmin}
               key={id}

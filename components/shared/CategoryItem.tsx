@@ -2,18 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import DeleteConfirmation from "@/components/shared/DeleteConfirmation";
 import { formatDateTime } from "@/lib/utils";
-
-type CategoryItemProps = {
-  id: string;
-  title: string;
-  imgUrl: string;
-  lastUpdate: Date;
-  isFinished: boolean;
-  isUserAdmin: boolean;
-};
+import { CategoryItemProps } from "@/types";
 
 const CategoryItem = ({
   id,
+  type,
   title,
   imgUrl,
   lastUpdate,
@@ -22,7 +15,7 @@ const CategoryItem = ({
 }: CategoryItemProps) => {
   return (
     <div className="w-full max-w-[500px] shadow-default bg-light-gradient dark:bg-dark-secondary-gradient dark:hover:bg-dark-gradient relative">
-      <Link href={`/items/${id}`} className="block">
+      <Link href={`/sections/${type}/${id}`} className="block">
         <Image
           src={imgUrl}
           alt={title}
@@ -36,7 +29,7 @@ const CategoryItem = ({
           {formatDateTime(lastUpdate).dateOnly}
         </span>
         {isFinished && (
-          <div className="bg-white rounded-2xl p-0.5" title="Finished">
+          <div className="bg-white rounded-2xl p-0.5" title="Завершено">
             <Image
               src="/assets/icons/finished.svg"
               alt="finished icon"
@@ -53,7 +46,7 @@ const CategoryItem = ({
       </div>
       {isUserAdmin && (
         <div className="absolute top-2 right-1 flex flex-col gap-2">
-          <Link href={`/items/${id}/update`}>
+          <Link href={`/sections/${type}/${id}/update`}>
             <Image
               src="/assets/icons/edit.svg"
               alt="edit icon"
