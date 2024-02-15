@@ -1,3 +1,6 @@
+import { ICategory } from "@/lib/database/models/category.model";
+import { Dispatch, SetStateAction } from "react";
+
 export type CategoryCardProps = {
   id: string;
   type: string;
@@ -37,14 +40,12 @@ export type AccordionBlockProps = {
 export type CreateCategoryParams = {
   categoryName: string;
   type: string;
+  path: string;
 };
 
 export type UpdateCategoryParams = {
   isAdmin: boolean;
-  category: {
-    _id: string;
-    categoryName: string;
-  };
+  category: ICategory;
   path: string;
 };
 

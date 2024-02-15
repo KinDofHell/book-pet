@@ -12,32 +12,23 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
-import { startTransition, useEffect, useState } from "react";
-import { ICategory } from "@/lib/database/models/category.model";
-import {
-  createCategory,
-  getAllCategories,
-} from "@/lib/actions/category.actions";
+import { startTransition, useState } from "react";
+import { createCategory } from "@/lib/actions/category.actions";
+import { usePathname } from "next/navigation";
 
 const CategoryForm = () => {
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [newCategory, setNewCategory] = useState("");
+  const pathname = usePathname();
+
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [newCategoryType, setNewCategoryType] = useState("");
 
   const handleAddCategory = () => {
-    createCategory({ categoryName: newCategory.trim() }).then((category) => {
-      setCategories((prevState) => [...prevState, category]);
+    createCategory({
+      categoryName: newCategoryName.trim(),
+      type: newCategoryType.trim(),
+      path: pathname,
     });
   };
-
-  useEffect(() => {
-    const getCategories = async () => {
-      const categoryList = await getAllCategories();
-
-      if (categoryList) setCategories(categoryList as ICategory[]);
-    };
-
-    getCategories();
-  }, []);
 
   return (
     <AlertDialog>
@@ -52,7 +43,13 @@ const CategoryForm = () => {
               type="text"
               placeholder="Назва категорії"
               className="input-field mt-3"
-              onChange={(e) => setNewCategory(e.target.value)}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+            ></Input>
+            <Input
+              type="text"
+              placeholder="Тип категорії (ex. locations)"
+              className="input-field mt-3"
+              onChange={(e) => setNewCategoryType(e.target.value)}
             ></Input>
           </AlertDialogDescription>
         </AlertDialogHeader>

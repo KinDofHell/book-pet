@@ -24,7 +24,11 @@ const CategoryCard = ({ id, title, type, isUserAdmin }: CategoryCardProps) => {
               height={18}
             />
           </Button>
-          <DeleteConfirmation itemId={id} itemsType="CATEGORY" />
+          <DeleteConfirmation
+            itemId={id}
+            itemsType="CATEGORY"
+            isUserAdmin={isUserAdmin}
+          />
         </div>
       )}
     </div>

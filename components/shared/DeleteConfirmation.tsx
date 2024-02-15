@@ -15,15 +15,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
-// import { deleteEvent } from "@/lib/actions/event.actions";
+import { deleteCategory } from "@/lib/actions/category.actions";
 
 type DeleteConfirmationProps = {
   itemId: string;
   itemsType: "CATEGORY" | "ITEM";
+  isUserAdmin: boolean;
 };
 
-const DeleteConfirmation = ({ itemId, itemsType }: DeleteConfirmationProps) => {
+const DeleteConfirmation = ({
+  itemId,
+  itemsType,
+  isUserAdmin,
+}: DeleteConfirmationProps) => {
   const pathname = usePathname();
   let [isPending, startTransition] = useTransition();
 
@@ -56,10 +60,14 @@ const DeleteConfirmation = ({ itemId, itemsType }: DeleteConfirmationProps) => {
           <AlertDialogAction
             className="bg-red-500 hover:bg-red-700"
             onClick={() =>
-              // startTransition(async () => {
-              //   await deleteEvent({ eventId, path: pathname });
-              // })
-              console.log("delete")
+              startTransition(async () => {
+                await deleteCategory({
+                  isAdmin: isUserAdmin,
+                  categoryId: itemId,
+                  defaultCategoryId: "skdfjaksdf",
+                  path: pathname,
+                });
+              })
             }
           >
             {isPending ? "Видалення..." : "Видалити"}

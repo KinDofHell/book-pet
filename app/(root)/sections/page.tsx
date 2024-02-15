@@ -1,58 +1,31 @@
 import { auth } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
-import CategoryCard from "@/components/shared/CategoryCard";
+import { getAllCategories } from "@/lib/actions/category.actions";
 import CategoryForm from "@/components/shared/forms/CategoryForm";
+import CategoryCard from "@/components/shared/CategoryCard";
+import { ICategory } from "@/lib/database/models/category.model";
 
-const Page = () => {
+const Page = async () => {
   const { sessionClaims } = auth();
+  const isUserAdmin = (sessionClaims?.isUserAdmin as boolean) || false;
 
-  const isUserAdmin = sessionClaims?.isUserAdmin as boolean;
+  let categories: ICategory[] = await getAllCategories();
 
-  const dummyCategories = [
-    {
-      id: "1",
-      title: "Test Category TestCategoryTest Test Category",
-      type: "locations",
-    },
-    {
-      id: "2",
-      title: "Test Category",
-      type: "people",
-    },
-    {
-      id: "3",
-      title: "Test Category",
-      type: "creations",
-    },
-    {
-      id: "4",
-      title: "Test Category",
-      type: "creatures",
-    },
-    {
-      id: "5",
-      title: "Test Category",
-      type: "saktra",
-    },
-    {
-      id: "6",
-      title: "Test Category",
-      type: "history",
-    },
-  ];
+  if (!isUserAdmin) {
+    categories = categories.filter((category) => category.type !== "solving");
+  }
 
   return (
     <>
       <section className="w-full flex-center flex-col desktop:mt-6">
         {isUserAdmin && <CategoryForm />}
         <div className="flex justify-center flex-wrap gap-8 w-full desktop:mt-6">
-          {dummyCategories?.map(({ id, title, type }) => (
+          {categories?.map(({ _id, name, type }) => (
             <CategoryCard
-              id={id}
+              id={_id}
               type={type}
-              title={title}
+              title={name}
               isUserAdmin={isUserAdmin}
-              key={id}
+              key={_id}
             />
           ))}
         </div>

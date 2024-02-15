@@ -13,6 +13,7 @@ import { revalidatePath } from "next/cache";
 export const createCategory = async ({
   categoryName,
   type,
+  path,
 }: CreateCategoryParams) => {
   try {
     await connectToDB();
@@ -21,6 +22,9 @@ export const createCategory = async ({
       name: categoryName,
       type: type,
     });
+
+    if (newCategory) revalidatePath(path);
+
     return JSON.parse(JSON.stringify(newCategory));
   } catch (e) {
     handleError(e);
@@ -57,7 +61,7 @@ export const updateCategory = async ({
 
     const updatedCategory = await Category.findOneAndUpdate(
       { _id: category._id },
-      { $set: { categoryName: category.categoryName } },
+      { $set: { categoryName: category.name } },
       { new: true },
     );
 
@@ -87,8 +91,8 @@ export const deleteCategory = async ({
     await connectToDB();
 
     const deletedCategory = await Category.findByIdAndDelete(categoryId);
-    if (!deletedCategory) {
-      throw new Error("Category not found or already deleted");
+    if (deletedCategory) {
+      revalidatePath(path);
     }
 
     // // Find all related items and update their category field
@@ -102,8 +106,6 @@ export const deleteCategory = async ({
     // } else {
     //   console.log(`${updatedItems.modifiedCount} related items updated to default category.`);
     // }
-
-    revalidatePath(path);
 
     return { message: "Category deleted and related items updated" };
   } catch (e) {
