@@ -33,3 +33,23 @@ export type AccordionBlockProps = {
   title: string;
   textContent: string;
 };
+
+export type CreateCategoryParams = {
+  categoryName: string;
+};
+
+export type UpdateCategoryParams = {
+  isAdmin: boolean;
+  category: {
+    _id: string;
+    categoryName: string;
+  };
+  path: string;
+};
+
+export type DeleteCategoryParams = {
+  isAdmin: boolean;
+  categoryId: string;
+  defaultCategoryId: string;
+  path: string;
+};
