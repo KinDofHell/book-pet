@@ -12,11 +12,15 @@ import { revalidatePath } from "next/cache";
 
 export const createCategory = async ({
   categoryName,
+  type,
 }: CreateCategoryParams) => {
   try {
     await connectToDB();
 
-    const newCategory = await Category.create({ name: categoryName });
+    const newCategory = await Category.create({
+      name: categoryName,
+      type: type,
+    });
     return JSON.parse(JSON.stringify(newCategory));
   } catch (e) {
     handleError(e);

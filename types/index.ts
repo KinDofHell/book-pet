@@ -36,6 +36,7 @@ export type AccordionBlockProps = {
 
 export type CreateCategoryParams = {
   categoryName: string;
+  type: string;
 };
 
 export type UpdateCategoryParams = {
