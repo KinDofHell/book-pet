@@ -54,7 +54,11 @@ const CategoryItem = ({
               height={18}
             />
           </Link>
-          <DeleteConfirmation itemId={id} itemsType="ITEM" />
+          <DeleteConfirmation
+            itemId={id}
+            itemsType="ITEM"
+            isUserAdmin={isUserAdmin}
+          />
         </div>
       )}
     </div>
