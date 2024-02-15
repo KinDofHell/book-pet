@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import CategoryCard from "@/components/shared/CategoryCard";
+import CategoryForm from "@/components/shared/forms/CategoryForm";
 
 const Page = () => {
   const { sessionClaims } = auth();
@@ -43,14 +44,7 @@ const Page = () => {
   return (
     <>
       <section className="w-full flex-center flex-col desktop:mt-6">
-        {isUserAdmin && (
-          <Button
-            size="lg"
-            className="w-full max-w-[425px] uppercase tracking-wide text-black bg-white shadow-default mb-6 dark:bg-dark-primary dark:text-white hover:text-white hover:bg-light-gradient dark:hover:bg-dark-secondary-gradient"
-          >
-            Додати Категорію
-          </Button>
-        )}
+        {isUserAdmin && <CategoryForm />}
         <div className="flex justify-center flex-wrap gap-8 w-full desktop:mt-6">
           {dummyCategories?.map(({ id, title, type }) => (
             <CategoryCard
