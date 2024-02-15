@@ -1,5 +1,4 @@
 import { ICategory } from "@/lib/database/models/category.model";
-import { Dispatch, SetStateAction } from "react";
 
 export type CategoryCardProps = {
   id: string;
