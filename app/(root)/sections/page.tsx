@@ -17,7 +17,7 @@ const Page = async () => {
   return (
     <>
       <section className="w-full flex-center flex-col desktop:mt-6">
-        {isUserAdmin && <CategoryForm />}
+        {isUserAdmin && <CategoryForm mode="CREATE" isAdmin={isUserAdmin} />}
         <div className="flex justify-center flex-wrap gap-8 w-full desktop:mt-6">
           {categories?.map(({ _id, name, type }) => (
             <CategoryCard

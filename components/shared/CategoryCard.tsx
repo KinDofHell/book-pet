@@ -1,9 +1,9 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import DeleteConfirmation from "@/components/shared/DeleteConfirmation";
 import { CategoryCardProps } from "@/types";
 import { Button } from "@/components/ui/button";
+import CategoryForm from "@/components/shared/forms/CategoryForm";
 
 const CategoryCard = ({ id, title, type, isUserAdmin }: CategoryCardProps) => {
   return (
@@ -16,14 +16,19 @@ const CategoryCard = ({ id, title, type, isUserAdmin }: CategoryCardProps) => {
       </Link>
       {isUserAdmin && (
         <div className="absolute top-2 right-1 flex flex-col gap-2">
-          <Button className="p-0 bg-transparent w-auto h-auto">
-            <Image
-              src="/assets/icons/edit.svg"
-              alt="edit icon"
-              width={18}
-              height={18}
-            />
-          </Button>
+          {/*<Button className="p-0 bg-transparent w-auto h-auto">*/}
+          {/*  <Image*/}
+          {/*    src="/assets/icons/edit.svg"*/}
+          {/*    alt="edit icon"*/}
+          {/*    width={18}*/}
+          {/*    height={18}*/}
+          {/*  />*/}
+          {/*</Button>*/}
+          <CategoryForm
+            mode="UPDATE"
+            categoryData={{ id: id, name: title, type: type }}
+            isAdmin={isUserAdmin}
+          />
           <DeleteConfirmation
             itemId={id}
             itemsType="CATEGORY"

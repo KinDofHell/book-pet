@@ -1,5 +1,4 @@
 import { ICategory } from "@/lib/database/models/category.model";
-import { Dispatch, SetStateAction } from "react";
 
 export type CategoryCardProps = {
   id: string;
@@ -45,7 +44,9 @@ export type CreateCategoryParams = {
 
 export type UpdateCategoryParams = {
   isAdmin: boolean;
-  category: ICategory;
+  categoryId: string;
+  categoryName: string;
+  categoryType: string;
   path: string;
 };
 
@@ -54,4 +55,10 @@ export type DeleteCategoryParams = {
   categoryId: string;
   defaultCategoryId: string;
   path: string;
+};
+
+export type CategoryFormProps = {
+  mode: "CREATE" | "UPDATE";
+  categoryData?: { id: string; name: string; type: string };
+  isAdmin: boolean;
 };

@@ -2,9 +2,12 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import CategoryCard from "@/components/shared/CategoryCard";
 import { CategoryCardProps } from "@/types";
-import { userEvent } from "@testing-library/user-event";
 
 const { expect, describe, it } = require("@jest/globals");
+
+import { TextEncoder, TextDecoder } from "util";
+
+Object.assign(global, { TextDecoder, TextEncoder });
 
 const defaultProps: CategoryCardProps = {
   id: "1",
