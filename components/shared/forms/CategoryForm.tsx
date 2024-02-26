@@ -12,22 +12,40 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
-import { startTransition, useState } from "react";
-import { createCategory } from "@/lib/actions/category.actions";
+import { startTransition, useEffect, useState } from "react";
+import { createCategory, updateCategory } from "@/lib/actions/category.actions";
 import { usePathname } from "next/navigation";
+import { CategoryFormProps } from "@/types";
 
-const CategoryForm = () => {
+const CategoryForm = ({ mode, categoryData, isAdmin }: CategoryFormProps) => {
   const pathname = usePathname();
 
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryType, setNewCategoryType] = useState("");
 
+  useEffect(() => {
+    if (mode === "UPDATE" && categoryData) {
+      setNewCategoryName(categoryData.name);
+      setNewCategoryType(categoryData.type);
+    }
+  }, [mode, categoryData]);
+
   const handleAddCategory = () => {
-    createCategory({
-      categoryName: newCategoryName.trim(),
-      type: newCategoryType.trim(),
-      path: pathname,
-    });
+    if (mode === "CREATE") {
+      createCategory({
+        categoryName: newCategoryName.trim(),
+        type: newCategoryType.trim(),
+        path: pathname,
+      });
+    } else if (categoryData) {
+      updateCategory({
+        isAdmin,
+        categoryId: categoryData.id,
+        categoryName: newCategoryName.trim(),
+        categoryType: newCategoryType.trim(),
+        path: pathname,
+      });
+    }
   };
 
   return (
@@ -37,18 +55,22 @@ const CategoryForm = () => {
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-white dark:bg-dark-primary dark:text-white dark:border-black">
         <AlertDialogHeader>
-          <AlertDialogTitle>Нова категорія</AlertDialogTitle>
+          <AlertDialogTitle>
+            {mode === "CREATE" ? "Нова категорія" : "Зберегти категорію"}
+          </AlertDialogTitle>
           <AlertDialogDescription>
             <Input
               type="text"
               placeholder="Назва категорії"
               className="input-field mt-3"
+              value={newCategoryName}
               onChange={(e) => setNewCategoryName(e.target.value)}
             ></Input>
             <Input
               type="text"
               placeholder="Тип категорії (ex. locations)"
               className="input-field mt-3"
+              value={newCategoryType}
               onChange={(e) => setNewCategoryType(e.target.value)}
             ></Input>
           </AlertDialogDescription>
@@ -58,7 +80,7 @@ const CategoryForm = () => {
             Відмінити
           </AlertDialogCancel>
           <AlertDialogAction onClick={() => startTransition(handleAddCategory)}>
-            Додати категорію
+            {mode === "CREATE" ? "Додати категорію" : "Зберегти зміни"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -44,7 +44,9 @@ export type CreateCategoryParams = {
 
 export type UpdateCategoryParams = {
   isAdmin: boolean;
-  category: ICategory;
+  categoryId: string;
+  categoryName: string;
+  categoryType: string;
   path: string;
 };
 
@@ -53,4 +55,10 @@ export type DeleteCategoryParams = {
   categoryId: string;
   defaultCategoryId: string;
   path: string;
+};
+
+export type CategoryFormProps = {
+  mode: "CREATE" | "UPDATE";
+  categoryData?: { id: string; name: string; type: string };
+  isAdmin: boolean;
 };

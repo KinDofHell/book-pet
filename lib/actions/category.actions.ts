@@ -44,7 +44,9 @@ export const getAllCategories = async () => {
 
 export const updateCategory = async ({
   isAdmin,
-  category,
+  categoryId,
+  categoryName,
+  categoryType,
   path,
 }: UpdateCategoryParams) => {
   if (!isAdmin) {
@@ -54,14 +56,14 @@ export const updateCategory = async ({
   try {
     await connectToDB();
 
-    const categoryToUpdate = await Category.findById(category._id);
+    const categoryToUpdate = await Category.findById(categoryId);
     if (!categoryToUpdate) {
       throw new Error("Category not found");
     }
 
     const updatedCategory = await Category.findOneAndUpdate(
-      { _id: category._id },
-      { $set: { categoryName: category.name } },
+      { _id: categoryId },
+      { $set: { name: categoryName, type: categoryType } },
       { new: true },
     );
 
