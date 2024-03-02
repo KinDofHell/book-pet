@@ -62,3 +62,39 @@ export type CategoryFormProps = {
   categoryData?: { id: string; name: string; type: string };
   isAdmin: boolean;
 };
+
+export interface IGlossaryItem {
+  title: string;
+  imageUrl: string;
+  description: string;
+  history: string;
+  additional?: string;
+  tableInfo: Record<string, any>[];
+  isVisible: boolean;
+  categoryId: string;
+}
+
+export type GlossaryItemFormProps = {
+  type: "CREATE" | "UPDATE";
+  glossaryItem?: IGlossaryItem;
+  isAdmin: boolean;
+  categoryName: string;
+};
+
+type TableInfoFields = {
+  [index: number]: {
+    key: `tableInfo.${number}.key`;
+    value: `tableInfo.${number}.value`;
+  };
+};
+
+export type GlossaryItemFormFields = {
+  title: string;
+  description: string;
+  history: string;
+  imageUrl: string;
+  categoryId: string;
+  isVisible: boolean;
+  additional?: string;
+  tableInfo: TableInfoFields;
+};
