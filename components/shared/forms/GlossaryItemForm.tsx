@@ -1,8 +1,16 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm, useFormContext } from "react-hook-form";
+
 import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { GlossaryItemFormProps } from "@/types";
+import { glossaryItemDefaultValues } from "@/constants";
+import { glossaryItemFormSchema } from "@/lib/validator";
+import { useUploadThing } from "@/lib/uploadthing";
+
 import {
   Form,
   FormControl,
@@ -10,16 +18,12 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { GlossaryItemFormProps } from "@/types";
-import { useState } from "react";
-import { glossaryItemDefaultValues } from "@/constants";
-import { glossaryItemFormSchema } from "@/lib/validator";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { FileUploader } from "@/components/shared/forms/FileUploader";
-import { useUploadThing } from "@/lib/uploadthing";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const GlossaryItemForm = ({
   type,
@@ -214,6 +218,33 @@ const GlossaryItemForm = ({
           >
             Додати поле
           </Button>
+        </div>
+        <div>
+          <FormField
+            control={form.control}
+            name="isVisible"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex items-center">
+                    <label
+                      htmlFor="isVisible"
+                      className="whitespace-nowrap pr-3 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-white"
+                    >
+                      Видимий публічно
+                    </label>
+                    <Checkbox
+                      onCheckedChange={field.onChange}
+                      checked={field.value}
+                      id="isVisible"
+                      className="mr-2 h-5 w-5 border-2 border-dark-primary dark:border-white"
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <Button
           type="submit"
