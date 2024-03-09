@@ -1,6 +1,5 @@
 import { model, models, Schema } from "mongoose";
 import { ObjectType } from "@clerk/backend";
-import { timestamp } from "yaml/dist/schema/yaml-1.1/timestamp";
 
 export interface IGlossaryItem extends Document {
   _id: string;
