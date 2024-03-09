@@ -17,7 +17,7 @@ export const glossaryItemFormSchema = z.object({
     .string()
     .max(2000, "Історія має бути не більше 2000 символів")
     .optional(),
-  imageUrl: z.string(),
+  imageUrl: z.string().min(1, "Потрібно обрати зображення"),
   categoryId: z.string(),
   isVisible: z.boolean(),
   tableInfo: z.array(

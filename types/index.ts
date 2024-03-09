@@ -78,7 +78,7 @@ export type GlossaryItemFormProps = {
   type: "CREATE" | "UPDATE";
   glossaryItem?: IGlossaryItem;
   isAdmin: boolean;
-  categoryName: string;
+  categoryType: string;
 };
 
 type TableInfoFields = {
@@ -93,8 +93,19 @@ export type GlossaryItemFormFields = {
   description: string;
   history: string;
   imageUrl: string;
-  categoryId: string;
+  categoryType: string;
   isVisible: boolean;
   additional?: string;
   tableInfo: TableInfoFields;
+};
+
+export type CreateGlossaryItemParams = {
+  title: string;
+  description: string;
+  history: string;
+  additional?: string;
+  imageUrl: string;
+  categoryType: string;
+  isVisible?: boolean;
+  tableInfo: { [key: string]: string }[];
 };

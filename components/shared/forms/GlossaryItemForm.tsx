@@ -20,18 +20,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { FileUploader } from "@/components/shared/forms/FileUploader";
 import { Checkbox } from "@/components/ui/checkbox";
+import { createGlossaryItem } from "@/lib/actions/glossaryItem.actions";
+import { pathNameParser } from "@/lib/utils";
 
 const GlossaryItemForm = ({
   type,
   glossaryItem,
   isAdmin,
-  categoryName,
+  categoryType,
 }: GlossaryItemFormProps) => {
   const router = useRouter();
+  const pathName = usePathname();
 
   if (!isAdmin) {
     router.push("/");
@@ -61,7 +64,8 @@ const GlossaryItemForm = ({
 
   const onSubmit = async (values: z.infer<typeof glossaryItemFormSchema>) => {
     const tableInfoArray = values.tableInfo.map(({ key, value }) => ({
-      [key]: value,
+      key,
+      value,
     }));
 
     let uploadedImageUrl = values.imageUrl;
@@ -75,12 +79,23 @@ const GlossaryItemForm = ({
       uploadedImageUrl = uploadedImages[0].url;
     }
 
-    console.log({
-      ...values,
-      imageUrl: uploadedImageUrl,
-      categoryId: categoryName,
-      tableInfo: tableInfoArray,
-    });
+    if (type === "CREATE") {
+      try {
+        const newGlossaryItem = await createGlossaryItem({
+          ...values,
+          imageUrl: uploadedImageUrl,
+          categoryType,
+          tableInfo: tableInfoArray,
+        });
+
+        if (newGlossaryItem) {
+          form.reset();
+          router.back();
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
 
   return (

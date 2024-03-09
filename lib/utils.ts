@@ -75,3 +75,16 @@ export const handleError = (error: any) => {
   console.error(error);
   throw new Error(typeof error === "string" ? error : JSON.stringify(error));
 };
+
+export const pathNameParser = (
+  pathName: string,
+  parseLevel: number,
+): string => {
+  const pathParts = pathName.split("/").filter(Boolean);
+
+  if (parseLevel > pathParts.length - 1) {
+    throw new Error("Parse level is too high");
+  }
+
+  return pathParts.slice(0, parseLevel + 1).join("/") + "/";
+};

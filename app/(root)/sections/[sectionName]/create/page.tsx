@@ -21,7 +21,7 @@ const CreateEvent = ({
         <GlossaryItemForm
           type="CREATE"
           isAdmin={isUserAdmin}
-          categoryName={sectionName}
+          categoryType={sectionName}
         />
       </div>
     </>

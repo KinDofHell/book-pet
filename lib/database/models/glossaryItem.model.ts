@@ -10,7 +10,7 @@ export interface IGlossaryItem extends Document {
   imageUrl: string;
   categoryId: string;
   isVisible: boolean;
-  tableInfo: [{ key: string; value: string }];
+  tableInfo: { [key: string]: string }[];
 }
 
 const TableInfoSchema = new Schema({
