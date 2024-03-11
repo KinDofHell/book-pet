@@ -29,3 +29,8 @@ export const glossaryItemDefaultValues = {
   isVisible: false,
   categoryId: "",
 };
+
+export enum CategoryTitles {
+  locations = "Локації",
+  lerchories = "Лерхорії",
+}

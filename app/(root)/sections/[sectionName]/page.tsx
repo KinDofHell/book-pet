@@ -3,8 +3,11 @@ import { Button } from "@/components/ui/button";
 import CategoryCard from "@/components/shared/CategoryCard";
 import CategoryItem from "@/components/shared/CategoryItem";
 import Link from "next/link";
+import { IGlossaryItem } from "@/lib/database/models/glossaryItem.model";
+import { getAllGlossaryItems } from "@/lib/actions/glossaryItem.actions";
+import { CategoryTitles } from "@/constants";
 
-const Page = ({
+const Page = async ({
   params: { sectionName },
 }: {
   params: { sectionName: string };
@@ -14,48 +17,14 @@ const Page = ({
   const isUserAdmin = sessionClaims?.isUserAdmin as boolean;
   const type = sectionName;
 
-  const dummyItems = [
-    {
-      id: "1",
-      title: "Test Item TestItemTestItem Test Item",
-      imgUrl: "/assets/images/fantasyLandsc.jpg",
-      lastUpdate: new Date(),
-      isFinished: false,
-    },
-    {
-      id: "2",
-      title: "Test Item",
-      imgUrl: "/assets/images/fantasyLandsc.jpg",
-      lastUpdate: new Date(),
-      isFinished: true,
-    },
-    {
-      id: "3",
-      title: "Test Item",
-      imgUrl: "/assets/images/fantasyLandsc.jpg",
-      lastUpdate: new Date(),
-      isFinished: false,
-    },
-    {
-      id: "4",
-      title: "Test Item",
-      imgUrl: "/assets/images/fantasyLandsc.jpg",
-      lastUpdate: new Date(),
-      isFinished: true,
-    },
-    {
-      id: "5",
-      title: "Test Item",
-      imgUrl: "/assets/images/fantasyLandsc.jpg",
-      lastUpdate: new Date(),
-      isFinished: false,
-    },
-  ];
+  const glossaryItems: IGlossaryItem[] = await getAllGlossaryItems();
 
   return (
     <>
       <section className="w-full flex-center flex-col desktop:mt-6">
-        <h1 className="h1-font">Локації</h1>
+        <h1 className="h1-font">
+          {CategoryTitles[type as keyof typeof CategoryTitles]}
+        </h1>
         {isUserAdmin && (
           <Link
             href={`/sections/${type}/create`}
@@ -65,16 +34,16 @@ const Page = ({
           </Link>
         )}
         <div className="flex justify-center flex-wrap gap-8 w-full desktop:mt-6">
-          {dummyItems?.map(({ id, title, imgUrl, lastUpdate, isFinished }) => (
+          {glossaryItems?.map((item) => (
             <CategoryItem
-              id={id}
+              id={item._id}
               type={type}
-              title={title}
-              imgUrl={imgUrl}
-              lastUpdate={lastUpdate}
-              isFinished={isFinished}
+              title={item.title}
+              imgUrl={item.imageUrl}
+              updatedAt={item.updatedAt}
+              isFinished={false}
               isUserAdmin={isUserAdmin}
-              key={id}
+              key={item._id}
             />
           ))}
         </div>

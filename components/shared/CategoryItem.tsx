@@ -9,7 +9,7 @@ const CategoryItem = ({
   type,
   title,
   imgUrl,
-  lastUpdate,
+  updatedAt,
   isFinished,
   isUserAdmin,
 }: CategoryItemProps) => {
@@ -26,7 +26,7 @@ const CategoryItem = ({
       </Link>
       <div className="absolute top-2 left-2 flex gap-2 items-center">
         <span className="bg-white px-1.5 py-0.5 rounded-lg text-sm dark:bg-dark-primary dark:text-white tracking-wide">
-          {formatDateTime(lastUpdate).dateOnly}
+          {updatedAt && formatDateTime(updatedAt).dateOnly}
         </span>
         {isFinished && (
           <div className="bg-white rounded-2xl p-0.5" title="Завершено">

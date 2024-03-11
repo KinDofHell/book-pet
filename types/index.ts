@@ -1,5 +1,3 @@
-import { ICategory } from "@/lib/database/models/category.model";
-
 export type CategoryCardProps = {
   id: string;
   type: string;
@@ -12,7 +10,7 @@ export type CategoryItemProps = {
   type: string;
   title: string;
   imgUrl: string;
-  lastUpdate: Date;
+  updatedAt?: Date;
   isFinished: boolean;
   isUserAdmin: boolean;
 };

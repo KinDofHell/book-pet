@@ -1,5 +1,6 @@
 import { model, models, Schema } from "mongoose";
 import { ObjectType } from "@clerk/backend";
+import { DateTime } from "asn1js";
 
 export interface IGlossaryItem extends Document {
   _id: string;
@@ -11,6 +12,7 @@ export interface IGlossaryItem extends Document {
   categoryId: string;
   isVisible: boolean;
   tableInfo: { [key: string]: string }[];
+  updatedAt?: Date;
 }
 
 const TableInfoSchema = new Schema({

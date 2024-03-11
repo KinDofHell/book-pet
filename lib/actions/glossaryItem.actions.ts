@@ -41,16 +41,16 @@ export const createGlossaryItem = async ({
   }
 };
 
-// export const getAllCategories = async () => {
-//   try {
-//     await connectToDB();
-//
-//     const categories = await Category.find();
-//     return JSON.parse(JSON.stringify(categories));
-//   } catch (e) {
-//     handleError(e);
-//   }
-// };
+export const getAllGlossaryItems = async () => {
+  try {
+    await connectToDB();
+
+    const glossaryItems = await GlossaryItem.find();
+    return JSON.parse(JSON.stringify(glossaryItems));
+  } catch (e) {
+    handleError(e);
+  }
+};
 //
 // export const updateCategory = async ({
 //   isAdmin,
