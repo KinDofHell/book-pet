@@ -60,9 +60,9 @@ export const convertObjectToKeyValuePairs = (
 
   Object.entries(object).forEach(([key, value]) => {
     if (
-      typeof value === "string" ||
-      typeof value === "number" ||
-      typeof value === "boolean"
+      typeof value.value === "string" ||
+      typeof value.value === "number" ||
+      typeof value.value === "boolean"
     ) {
       result.push({ key, value });
     }

@@ -41,16 +41,37 @@ export const createGlossaryItem = async ({
   }
 };
 
-export const getAllGlossaryItems = async () => {
+export const getAllGlossaryItems = async (type: string) => {
   try {
     await connectToDB();
 
-    const glossaryItems = await GlossaryItem.find();
-    return JSON.parse(JSON.stringify(glossaryItems));
+    const category = await Category.findOne({ type: type });
+
+    if (category) {
+      const glossaryItems = await GlossaryItem.find({
+        categoryId: category._id,
+      });
+      return JSON.parse(JSON.stringify(glossaryItems));
+    }
   } catch (e) {
     handleError(e);
   }
 };
+
+export const getGlossaryItemById = async (id: string) => {
+  try {
+    await connectToDB();
+
+    const glossaryItem = await GlossaryItem.findById(id);
+
+    if (!glossaryItem) throw new Error("Glossary item not found");
+
+    return JSON.parse(JSON.stringify(glossaryItem));
+  } catch (e) {
+    handleError(e);
+  }
+};
+
 //
 // export const updateCategory = async ({
 //   isAdmin,

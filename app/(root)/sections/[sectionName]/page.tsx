@@ -17,7 +17,7 @@ const Page = async ({
   const isUserAdmin = sessionClaims?.isUserAdmin as boolean;
   const type = sectionName;
 
-  const glossaryItems: IGlossaryItem[] = await getAllGlossaryItems();
+  const glossaryItems: IGlossaryItem[] = await getAllGlossaryItems(sectionName);
 
   return (
     <>

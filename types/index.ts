@@ -26,7 +26,10 @@ export type ObjectArrayParams = {
 
 export interface IObjectsArray {
   key: string;
-  value: string | number | boolean;
+  value: {
+    key: string;
+    value: string;
+  };
 }
 
 export type AccordionBlockProps = {
