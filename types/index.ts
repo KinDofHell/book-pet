@@ -51,6 +51,23 @@ export type UpdateCategoryParams = {
   path: string;
 };
 
+export type UpdateGlossaryItemParams = {
+  isAdmin: boolean;
+  glossaryItem: {
+    _id: string;
+    title: string;
+    description: string;
+    history: string;
+    additional?: string;
+    imageUrl: string;
+    categoryId: string;
+    isVisible: boolean;
+    tableInfo: { [key: string]: string }[];
+    updatedAt?: Date;
+  };
+  path: string;
+};
+
 export type DeleteCategoryParams = {
   isAdmin: boolean;
   categoryId: string;
@@ -79,6 +96,7 @@ export type GlossaryItemFormProps = {
   glossaryItem?: IGlossaryItem;
   isAdmin: boolean;
   categoryType: string;
+  glossaryItemId?: string;
 };
 
 type TableInfoFields = {

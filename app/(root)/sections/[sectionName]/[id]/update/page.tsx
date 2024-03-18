@@ -1,7 +1,8 @@
 import GlossaryItemForm from "@/components/shared/forms/GlossaryItemForm";
 import { auth } from "@clerk/nextjs";
+import { getGlossaryItemById } from "@/lib/actions/glossaryItem.actions";
 
-const CreateEvent = ({
+const CreateEvent = async ({
   params: { sectionName, id },
 }: {
   params: { sectionName: string; id: string };
@@ -9,6 +10,7 @@ const CreateEvent = ({
   const { sessionClaims } = auth();
 
   const isUserAdmin = sessionClaims?.isUserAdmin as boolean;
+  const glossaryItem = await getGlossaryItemById(id);
 
   return (
     <>
@@ -21,7 +23,9 @@ const CreateEvent = ({
         <GlossaryItemForm
           type="UPDATE"
           isAdmin={isUserAdmin}
+          glossaryItem={glossaryItem}
           categoryType={sectionName}
+          glossaryItemId={id}
         />
       </div>
     </>

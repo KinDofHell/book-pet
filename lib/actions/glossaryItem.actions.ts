@@ -3,7 +3,11 @@
 import { handleError } from "@/lib/utils";
 import { connectToDB } from "@/lib/database";
 import GlossaryItem from "@/lib/database/models/glossaryItem.model";
-import { CreateGlossaryItemParams, DeleteGlossaryItemParams } from "@/types";
+import {
+  CreateGlossaryItemParams,
+  DeleteGlossaryItemParams,
+  UpdateGlossaryItemParams,
+} from "@/types";
 import Category from "@/lib/database/models/category.model";
 import { revalidatePath } from "next/cache";
 
@@ -78,43 +82,41 @@ export const getGlossaryItemById = async (id: string) => {
   }
 };
 
-//
-// export const updateCategory = async ({
-//   isAdmin,
-//   categoryId,
-//   categoryName,
-//   categoryType,
-//   path,
-// }: UpdateCategoryParams) => {
-//   if (!isAdmin) {
-//     throw new Error("Unauthorized");
-//   }
-//
-//   try {
-//     await connectToDB();
-//
-//     const categoryToUpdate = await Category.findById(categoryId);
-//     if (!categoryToUpdate) {
-//       throw new Error("Category not found");
-//     }
-//
-//     const updatedCategory = await Category.findOneAndUpdate(
-//       { _id: categoryId },
-//       { $set: { name: categoryName, type: categoryType } },
-//       { new: true },
-//     );
-//
-//     if (!updatedCategory) {
-//       throw new Error("Failed to update the category");
-//     }
-//
-//     revalidatePath(path);
-//
-//     return JSON.parse(JSON.stringify(updatedCategory));
-//   } catch (e) {
-//     handleError(e);
-//   }
-// };
+export const updateGlossaryItem = async ({
+  isAdmin,
+  glossaryItem,
+  path,
+}: UpdateGlossaryItemParams) => {
+  if (!isAdmin) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    await connectToDB();
+
+    const glossaryItemToUpdate = await GlossaryItem.findById(glossaryItem._id);
+    if (!glossaryItemToUpdate) {
+      throw new Error("Glossary item not found");
+    }
+
+    const updatedGlossaryItem = await GlossaryItem.findByIdAndUpdate(
+      glossaryItem._id,
+      { ...glossaryItem },
+      { new: true },
+    );
+    revalidatePath(path);
+
+    if (!updatedGlossaryItem) {
+      throw new Error("Failed to update the glossary item");
+    }
+
+    revalidatePath(path);
+
+    return JSON.parse(JSON.stringify(updatedGlossaryItem));
+  } catch (e) {
+    handleError(e);
+  }
+};
 
 export const deleteGlossaryItem = async ({
   isAdmin,

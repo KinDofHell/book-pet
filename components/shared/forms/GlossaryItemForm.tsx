@@ -24,7 +24,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { FileUploader } from "@/components/shared/forms/FileUploader";
 import { Checkbox } from "@/components/ui/checkbox";
-import { createGlossaryItem } from "@/lib/actions/glossaryItem.actions";
+import {
+  createGlossaryItem,
+  updateGlossaryItem,
+} from "@/lib/actions/glossaryItem.actions";
 import { pathNameParser } from "@/lib/utils";
 
 const GlossaryItemForm = ({
@@ -32,6 +35,7 @@ const GlossaryItemForm = ({
   glossaryItem,
   isAdmin,
   categoryType,
+  glossaryItemId,
 }: GlossaryItemFormProps) => {
   const router = useRouter();
   const pathName = usePathname();
@@ -49,7 +53,14 @@ const GlossaryItemForm = ({
 
   const [tableInfoFields, setTableInfoFields] = useState<
     { key: string; value: string }[]
-  >([{ key: "", value: "" }]);
+  >(
+    glossaryItem && type === "UPDATE"
+      ? glossaryItem.tableInfo.map((item) => ({
+          key: item.key,
+          value: item.value,
+        }))
+      : [{ key: "", value: "" }],
+  );
 
   const addTableInfoField = () => {
     setTableInfoFields([...tableInfoFields, { key: "", value: "" }]);
@@ -94,6 +105,32 @@ const GlossaryItemForm = ({
         if (newGlossaryItem) {
           form.reset();
           router.back();
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (type === "UPDATE") {
+      if (!glossaryItemId) {
+        router.back();
+        return;
+      }
+
+      try {
+        const updatedGlossaryItem = await updateGlossaryItem({
+          isAdmin,
+          glossaryItem: {
+            ...values,
+            imageUrl: uploadedImageUrl,
+            _id: glossaryItemId,
+          },
+          path: pathName.replace("update", ""),
+        });
+
+        if (updatedGlossaryItem) {
+          form.reset();
+          router.push(pathName.replace("update", ""));
         }
       } catch (e) {
         console.log(e);
