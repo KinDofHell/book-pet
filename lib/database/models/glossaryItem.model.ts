@@ -1,6 +1,7 @@
 import { model, models, Schema } from "mongoose";
 import { ObjectType } from "@clerk/backend";
 import { DateTime } from "asn1js";
+import { DEFAULT_CATEGORY_ID } from "@/constants";
 
 export interface IGlossaryItem extends Document {
   _id: string;
@@ -27,7 +28,11 @@ const GlossaryItemSchema = new Schema(
     history: { type: String, required: true },
     additional: { type: String },
     imageUrl: { type: String, required: true },
-    categoryId: { type: Schema.Types.ObjectId, ref: "Category" },
+    categoryId: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      default: DEFAULT_CATEGORY_ID,
+    },
     isVisible: { type: Boolean, default: false },
     tableInfo: [TableInfoSchema],
   },

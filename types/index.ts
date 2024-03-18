@@ -54,7 +54,6 @@ export type UpdateCategoryParams = {
 export type DeleteCategoryParams = {
   isAdmin: boolean;
   categoryId: string;
-  defaultCategoryId: string;
   path: string;
 };
 
@@ -109,4 +108,10 @@ export type CreateGlossaryItemParams = {
   categoryType: string;
   isVisible?: boolean;
   tableInfo: { [key: string]: string }[];
+};
+
+export type DeleteGlossaryItemParams = {
+  isAdmin: boolean;
+  glossaryItemId: string;
+  path: string;
 };

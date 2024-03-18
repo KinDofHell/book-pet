@@ -3,19 +3,23 @@
 import { handleError } from "@/lib/utils";
 import { connectToDB } from "@/lib/database";
 import GlossaryItem from "@/lib/database/models/glossaryItem.model";
-import { CreateGlossaryItemParams } from "@/types";
+import { CreateGlossaryItemParams, DeleteGlossaryItemParams } from "@/types";
 import Category from "@/lib/database/models/category.model";
+import { revalidatePath } from "next/cache";
 
-export const createGlossaryItem = async ({
-  title,
-  description,
-  history,
-  additional,
-  imageUrl,
-  categoryType,
-  isVisible,
-  tableInfo,
-}: CreateGlossaryItemParams) => {
+export const createGlossaryItem = async (
+  {
+    title,
+    description,
+    history,
+    additional,
+    imageUrl,
+    categoryType,
+    isVisible,
+    tableInfo,
+  }: CreateGlossaryItemParams,
+  path: string,
+) => {
   try {
     await connectToDB();
 
@@ -34,6 +38,8 @@ export const createGlossaryItem = async ({
       isVisible,
       tableInfo,
     });
+
+    revalidatePath(path);
 
     return JSON.parse(JSON.stringify(newGlossaryItem));
   } catch (e) {
@@ -109,39 +115,27 @@ export const getGlossaryItemById = async (id: string) => {
 //     handleError(e);
 //   }
 // };
-//
-// export const deleteCategory = async ({
-//   isAdmin,
-//   categoryId,
-//   defaultCategoryId,
-//   path,
-// }: DeleteCategoryParams) => {
-//   if (!isAdmin) {
-//     throw new Error("Unauthorized");
-//   }
-//
-//   try {
-//     await connectToDB();
-//
-//     const deletedCategory = await Category.findByIdAndDelete(categoryId);
-//     if (deletedCategory) {
-//       revalidatePath(path);
-//     }
-//
-//     // // Find all related items and update their category field
-//     // const updatedItems = await Item.updateMany(
-//     //     { categoryId: categoryId }, // Condition to find related items
-//     //     { $set: { categoryId: defaultCategoryId } } // Update to set the default category ID
-//     // );
-//     //
-//     // if (updatedItems.matchedCount === 0) {
-//     //   console.log("No related items found to update.");
-//     // } else {
-//     //   console.log(`${updatedItems.modifiedCount} related items updated to default category.`);
-//     // }
-//
-//     return { message: "Category deleted and related items updated" };
-//   } catch (e) {
-//     handleError(e);
-//   }
-// };
+
+export const deleteGlossaryItem = async ({
+  isAdmin,
+  glossaryItemId,
+  path,
+}: DeleteGlossaryItemParams) => {
+  if (!isAdmin) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    await connectToDB();
+
+    const deletedGlossaryItem =
+      await GlossaryItem.findByIdAndDelete(glossaryItemId);
+    if (deletedGlossaryItem) {
+      revalidatePath(path);
+    }
+
+    return { message: "Glossary item deleted and related items updated" };
+  } catch (e) {
+    handleError(e);
+  }
+};

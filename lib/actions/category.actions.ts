@@ -9,6 +9,8 @@ import { handleError } from "@/lib/utils";
 import { connectToDB } from "@/lib/database";
 import Category from "@/lib/database/models/category.model";
 import { revalidatePath } from "next/cache";
+import GlossaryItem from "@/lib/database/models/glossaryItem.model";
+import { DEFAULT_CATEGORY_ID } from "@/constants";
 
 export const createCategory = async ({
   categoryName,
@@ -82,7 +84,6 @@ export const updateCategory = async ({
 export const deleteCategory = async ({
   isAdmin,
   categoryId,
-  defaultCategoryId,
   path,
 }: DeleteCategoryParams) => {
   if (!isAdmin) {
@@ -97,17 +98,10 @@ export const deleteCategory = async ({
       revalidatePath(path);
     }
 
-    // // Find all related items and update their category field
-    // const updatedItems = await Item.updateMany(
-    //     { categoryId: categoryId }, // Condition to find related items
-    //     { $set: { categoryId: defaultCategoryId } } // Update to set the default category ID
-    // );
-    //
-    // if (updatedItems.matchedCount === 0) {
-    //   console.log("No related items found to update.");
-    // } else {
-    //   console.log(`${updatedItems.modifiedCount} related items updated to default category.`);
-    // }
+    const updatedItems = await GlossaryItem.updateMany(
+      { categoryId: categoryId },
+      { $set: { categoryId: DEFAULT_CATEGORY_ID } },
+    );
 
     return { message: "Category deleted and related items updated" };
   } catch (e) {

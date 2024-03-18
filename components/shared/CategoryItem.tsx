@@ -21,7 +21,7 @@ const CategoryItem = ({
           alt={title}
           width={280}
           height={200}
-          className="w-full h-full"
+          className="w-full max-h-[350px]"
         />
       </Link>
       <div className="absolute top-2 left-2 flex gap-2 items-center">
@@ -56,7 +56,7 @@ const CategoryItem = ({
           </Link>
           <DeleteConfirmation
             itemId={id}
-            itemsType="ITEM"
+            itemsType="GLOSSARY_ITEM"
             isUserAdmin={isUserAdmin}
           />
         </div>

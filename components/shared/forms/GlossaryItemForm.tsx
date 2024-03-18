@@ -81,12 +81,15 @@ const GlossaryItemForm = ({
 
     if (type === "CREATE") {
       try {
-        const newGlossaryItem = await createGlossaryItem({
-          ...values,
-          imageUrl: uploadedImageUrl,
-          categoryType,
-          tableInfo: tableInfoArray,
-        });
+        const newGlossaryItem = await createGlossaryItem(
+          {
+            ...values,
+            imageUrl: uploadedImageUrl,
+            categoryType,
+            tableInfo: tableInfoArray,
+          },
+          pathName,
+        );
 
         if (newGlossaryItem) {
           form.reset();

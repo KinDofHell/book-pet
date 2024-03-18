@@ -34,3 +34,5 @@ export enum CategoryTitles {
   locations = "Локації",
   lerchories = "Лерхорії",
 }
+
+export const DEFAULT_CATEGORY_ID = "65ce02afa688f48fd2cce67e";

@@ -16,10 +16,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { deleteCategory } from "@/lib/actions/category.actions";
+import { deleteGlossaryItem } from "@/lib/actions/glossaryItem.actions";
 
 type DeleteConfirmationProps = {
   itemId: string;
-  itemsType: "CATEGORY" | "ITEM";
+  itemsType: "CATEGORY" | "GLOSSARY_ITEM";
   isUserAdmin: boolean;
 };
 
@@ -61,12 +62,19 @@ const DeleteConfirmation = ({
             className="bg-red-500 hover:bg-red-700"
             onClick={() =>
               startTransition(async () => {
-                await deleteCategory({
-                  isAdmin: isUserAdmin,
-                  categoryId: itemId,
-                  defaultCategoryId: "skdfjaksdf",
-                  path: pathname,
-                });
+                if (itemsType === "CATEGORY") {
+                  await deleteCategory({
+                    isAdmin: isUserAdmin,
+                    categoryId: itemId,
+                    path: pathname,
+                  });
+                } else {
+                  await deleteGlossaryItem({
+                    isAdmin: isUserAdmin,
+                    glossaryItemId: itemId,
+                    path: pathname,
+                  });
+                }
               })
             }
           >

@@ -11,8 +11,8 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
       <section>
         <h1 className="h1-font text-center">{glossaryItem.title}</h1>
         <Image
-          src="/assets/images/fantasyLandsc.jpg"
-          alt="item image"
+          src={glossaryItem.imageUrl}
+          alt={glossaryItem.title}
           width={1300}
           height={800}
           className="w-full"
