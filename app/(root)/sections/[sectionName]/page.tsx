@@ -6,6 +6,7 @@ import Link from "next/link";
 import { IGlossaryItem } from "@/lib/database/models/glossaryItem.model";
 import { getAllGlossaryItems } from "@/lib/actions/glossaryItem.actions";
 import { CategoryTitles } from "@/constants";
+import { convertObjectToKeyValuePairs } from "@/lib/utils";
 
 const Page = async ({
   params: { sectionName },

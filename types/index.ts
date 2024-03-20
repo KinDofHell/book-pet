@@ -28,7 +28,7 @@ export interface IObjectsArray {
   key: string;
   value: {
     key: string;
-    value: string;
+    value: string | number | boolean;
   };
 }
 
