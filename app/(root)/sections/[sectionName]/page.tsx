@@ -42,7 +42,7 @@ const Page = async ({
               title={item.title}
               imgUrl={item.imageUrl}
               updatedAt={item.updatedAt}
-              isFinished={false}
+              isVisible={item.isVisible}
               isUserAdmin={isUserAdmin}
               key={item._id}
             />

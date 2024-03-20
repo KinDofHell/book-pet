@@ -11,7 +11,7 @@ export type CategoryItemProps = {
   title: string;
   imgUrl: string;
   updatedAt?: Date;
-  isFinished: boolean;
+  isVisible: boolean;
   isUserAdmin: boolean;
 };
 

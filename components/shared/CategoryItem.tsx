@@ -10,7 +10,7 @@ const CategoryItem = ({
   title,
   imgUrl,
   updatedAt,
-  isFinished,
+  isVisible,
   isUserAdmin,
 }: CategoryItemProps) => {
   return (
@@ -28,10 +28,10 @@ const CategoryItem = ({
         <span className="bg-white px-1.5 py-0.5 rounded-lg text-sm dark:bg-dark-primary dark:text-white tracking-wide">
           {updatedAt && formatDateTime(updatedAt).dateOnly}
         </span>
-        {isFinished && (
-          <div className="bg-white rounded-2xl p-0.5" title="Завершено">
+        {!isVisible && (
+          <div className="bg-white rounded-2xl p-0.5" title="Приховано">
             <Image
-              src="/assets/icons/finished.svg"
+              src="/assets/icons/hidden.svg"
               alt="finished icon"
               width={20}
               height={20}
