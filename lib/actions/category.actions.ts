@@ -33,12 +33,34 @@ export const createCategory = async ({
   }
 };
 
-export const getAllCategories = async () => {
+export const getAllCategories = async (isAdmin: boolean) => {
   try {
     await connectToDB();
 
-    const categories = await Category.find();
-    return JSON.parse(JSON.stringify(categories));
+    const allCategories = await Category.find();
+
+    if (isAdmin) {
+      return JSON.parse(JSON.stringify(allCategories));
+    }
+
+    const categoriesWithGlossaryItems = await Promise.all(
+      allCategories.map(async (category) => {
+        const glossaryItems = await GlossaryItem.find({
+          categoryId: category._id,
+          isVisible: true,
+        });
+
+        if (glossaryItems.length > 0) {
+          return category;
+        }
+
+        return null;
+      }),
+    );
+
+    const filteredCategories = categoriesWithGlossaryItems.filter(Boolean);
+
+    return JSON.parse(JSON.stringify(filteredCategories));
   } catch (e) {
     handleError(e);
   }

@@ -59,7 +59,6 @@ export const convertObjectToKeyValuePairs = (
   let result: IObjectsArray[] = [];
 
   Object.entries(object).forEach(([key, value]) => {
-    console.log(value);
     if (
       typeof value.value === "string" ||
       typeof value.value === "number" ||

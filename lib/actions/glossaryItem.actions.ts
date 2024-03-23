@@ -51,16 +51,19 @@ export const createGlossaryItem = async (
   }
 };
 
-export const getAllGlossaryItems = async (type: string) => {
+export const getAllGlossaryItems = async (type: string, isAdmin: boolean) => {
   try {
     await connectToDB();
 
     const category = await Category.findOne({ type: type });
 
     if (category) {
-      const glossaryItems = await GlossaryItem.find({
+      const query = {
         categoryId: category._id,
-      });
+        ...(!isAdmin && { isVisible: true }),
+      };
+
+      const glossaryItems = await GlossaryItem.find(query);
       return JSON.parse(JSON.stringify(glossaryItems));
     }
   } catch (e) {

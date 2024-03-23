@@ -8,7 +8,7 @@ const Page = async () => {
   const { sessionClaims } = auth();
   const isUserAdmin = (sessionClaims?.isUserAdmin as boolean) || false;
 
-  let categories: ICategory[] = await getAllCategories();
+  let categories: ICategory[] = await getAllCategories(isUserAdmin);
 
   if (!isUserAdmin) {
     categories = categories.filter((category) => category.type !== "solving");
