@@ -58,8 +58,6 @@ export async function POST(req: Request) {
     const { id, email_addresses, image_url, first_name, last_name, username } =
       evt.data;
 
-    console.log(evt.data);
-
     const user = {
       clerkId: id,
       email: email_addresses[0].email_address,
@@ -72,14 +70,19 @@ export async function POST(req: Request) {
     const newUser = await createUser(user);
 
     if (newUser) {
+      const metadata: UserPublicMetadata = {
+        userId: newUser._id,
+      };
+
       await clerkClient.users.updateUserMetadata(id, {
-        publicMetadata: {
-          userId: newUser._id,
-        },
+        publicMetadata: metadata,
       });
     }
 
-    return NextResponse.json({ message: "OK", user: newUser });
+    return NextResponse.json({
+      message: "Webhook user.created is success",
+      user: newUser,
+    });
   }
 
   if (eventType === "user.updated") {

@@ -3,6 +3,7 @@ import { getAllCategories } from "@/lib/actions/category.actions";
 import CategoryForm from "@/components/shared/forms/CategoryForm";
 import CategoryCard from "@/components/shared/CategoryCard";
 import { ICategory } from "@/lib/database/models/category.model";
+import { createUser } from "@/lib/actions/user.action";
 
 const Page = async () => {
   const { sessionClaims } = auth();
