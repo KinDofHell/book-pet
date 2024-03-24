@@ -6,12 +6,9 @@ export default authMiddleware({
     "/sections",
     "/sections/:sectionName",
     "/sections/:sectionName/:id",
+    "/api/webhooks(.*)",
   ],
-  ignoredRoutes: [
-    "/api/webhook/clerk",
-    "/api/webhook/stripe",
-    "/api/uploadthing",
-  ],
+  ignoredRoutes: ["/api/uploadthing"],
 });
 
 export const config = {
