@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   firstName: { type: String },
   lastName: { type: String },
   photo: { type: String, required: true },
+  savedGlossaryItems: [{ type: Schema.Types.ObjectId, ref: "GlossaryItem" }],
 });
 
 const User = models.User || model("User", UserSchema);
