@@ -12,7 +12,9 @@ export type CategoryItemProps = {
   imgUrl: string;
   updatedAt?: Date;
   isVisible: boolean;
+  isUser: boolean;
   isUserAdmin: boolean;
+  isSaved?: boolean;
 };
 
 export type TableProps = {

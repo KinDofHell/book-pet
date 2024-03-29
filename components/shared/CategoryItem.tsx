@@ -3,6 +3,7 @@ import Image from "next/image";
 import DeleteConfirmation from "@/components/shared/DeleteConfirmation";
 import { formatDateTime } from "@/lib/utils";
 import { CategoryItemProps } from "@/types";
+import { Button } from "@/components/ui/button";
 
 const CategoryItem = ({
   id,
@@ -11,7 +12,9 @@ const CategoryItem = ({
   imgUrl,
   updatedAt,
   isVisible,
+  isUser,
   isUserAdmin,
+  isSaved,
 }: CategoryItemProps) => {
   return (
     <div className="w-full max-w-[500px] shadow-default bg-light-gradient dark:bg-dark-secondary-gradient dark:hover:bg-dark-gradient relative">
@@ -44,23 +47,38 @@ const CategoryItem = ({
           {title}
         </h2>
       </div>
-      {isUserAdmin && (
-        <div className="absolute top-2 right-1 flex flex-col gap-2">
-          <Link href={`/sections/${type}/${id}/update`}>
+
+      <div className="absolute top-2 right-1 flex flex-col items-center gap-2">
+        {isUser && (
+          <Button
+            className={`${isSaved ? "bg-yellow-400 hover:bg-white" : "bg-white hover:bg-yellow-400"} p-0`}
+          >
             <Image
-              src="/assets/icons/edit.svg"
-              alt="edit icon"
-              width={18}
-              height={18}
+              src={`/assets/icons/bookmark-${isSaved ? "check" : "cross"}.svg`}
+              alt="saved icon"
+              width={32}
+              height={32}
             />
-          </Link>
-          <DeleteConfirmation
-            itemId={id}
-            itemsType="GLOSSARY_ITEM"
-            isUserAdmin={isUserAdmin}
-          />
-        </div>
-      )}
+          </Button>
+        )}
+        {isUserAdmin && (
+          <>
+            <Link href={`/sections/${type}/${id}/update`}>
+              <Image
+                src="/assets/icons/edit.svg"
+                alt="edit icon"
+                width={18}
+                height={18}
+              />
+            </Link>
+            <DeleteConfirmation
+              itemId={id}
+              itemsType="GLOSSARY_ITEM"
+              isUserAdmin={isUserAdmin}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 };

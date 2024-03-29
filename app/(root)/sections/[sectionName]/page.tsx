@@ -46,7 +46,9 @@ const Page = async ({
               imgUrl={item.imageUrl}
               updatedAt={item.updatedAt}
               isVisible={item.isVisible}
+              isUser={sessionClaims !== null}
               isUserAdmin={isUserAdmin}
+              isSaved={false}
               key={item._id}
             />
           ))}
