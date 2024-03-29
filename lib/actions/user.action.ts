@@ -7,6 +7,7 @@ import { handleError } from "@/lib/utils";
 import { CreateUserParams, UpdateUserParams } from "@/types";
 import User from "@/lib/database/models/user.model";
 import { connectToDB } from "@/lib/database";
+import GlossaryItem from "@/lib/database/models/glossaryItem.model";
 
 export async function createUser(user: CreateUserParams) {
   try {
@@ -78,6 +79,36 @@ export async function deleteUser(clerkId: string) {
     revalidatePath("/");
 
     return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function toggleSavedGlossaryItem(
+  userId: string,
+  glossaryItemId: string,
+) {
+  try {
+    await connectToDB();
+
+    const user = await User.findById(userId);
+    const glossaryItem = await GlossaryItem.findById(glossaryItemId);
+
+    if (!user || !glossaryItem) {
+      throw new Error("User or GlossaryItem not found");
+    }
+
+    const isSaved = user.savedGlossaryItems.includes(glossaryItemId);
+
+    if (isSaved) {
+      user.savedGlossaryItems.pull(glossaryItemId);
+    } else {
+      user.savedGlossaryItems.push(glossaryItemId);
+    }
+
+    await user.save();
+
+    return JSON.parse(JSON.stringify(user));
   } catch (error) {
     handleError(error);
   }

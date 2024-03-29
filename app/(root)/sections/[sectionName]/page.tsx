@@ -16,6 +16,7 @@ const Page = async ({
   const { sessionClaims } = auth();
 
   const isUserAdmin = sessionClaims?.isUserAdmin as boolean;
+  const userId = sessionClaims?.userId as string;
   const type = sectionName;
 
   const glossaryItems: IGlossaryItem[] = await getAllGlossaryItems(
@@ -48,7 +49,7 @@ const Page = async ({
               isVisible={item.isVisible}
               isUser={sessionClaims !== null}
               isUserAdmin={isUserAdmin}
-              isSaved={false}
+              userId={userId}
               key={item._id}
             />
           ))}

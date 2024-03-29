@@ -14,7 +14,7 @@ export type CategoryItemProps = {
   isVisible: boolean;
   isUser: boolean;
   isUserAdmin: boolean;
-  isSaved?: boolean;
+  userId?: string;
 };
 
 export type TableProps = {

@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import DeleteConfirmation from "@/components/shared/DeleteConfirmation";
 import { formatDateTime } from "@/lib/utils";
 import { CategoryItemProps } from "@/types";
 import { Button } from "@/components/ui/button";
+import { toggleSavedGlossaryItem } from "@/lib/actions/user.action";
+import { useState } from "react";
 
 const CategoryItem = ({
   id,
@@ -14,8 +18,24 @@ const CategoryItem = ({
   isVisible,
   isUser,
   isUserAdmin,
-  isSaved,
+  userId,
 }: CategoryItemProps) => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const handleBookmarkClick = async () => {
+    try {
+      if (userId) {
+        const updatedUser = await toggleSavedGlossaryItem(userId, id);
+
+        if (updatedUser) {
+          setIsBookmarked(!isBookmarked);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="w-full max-w-[500px] shadow-default bg-light-gradient dark:bg-dark-secondary-gradient dark:hover:bg-dark-gradient relative">
       <Link href={`/sections/${type}/${id}`} className="block">
@@ -51,10 +71,11 @@ const CategoryItem = ({
       <div className="absolute top-2 right-1 flex flex-col items-center gap-2">
         {isUser && (
           <Button
-            className={`${isSaved ? "bg-yellow-400 hover:bg-white" : "bg-white hover:bg-yellow-400"} p-0`}
+            className={`${isBookmarked ? "bg-yellow-400 hover:bg-white" : "bg-white hover:bg-yellow-400"} p-0`}
+            onClick={handleBookmarkClick}
           >
             <Image
-              src={`/assets/icons/bookmark-${isSaved ? "check" : "cross"}.svg`}
+              src={`/assets/icons/bookmark-${isBookmarked ? "check" : "cross"}.svg`}
               alt="saved icon"
               width={32}
               height={32}
