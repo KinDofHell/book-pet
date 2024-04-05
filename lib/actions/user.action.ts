@@ -87,6 +87,7 @@ export async function deleteUser(clerkId: string) {
 export async function toggleSavedGlossaryItem(
   userId: string,
   glossaryItemId: string,
+  path: string,
 ) {
   try {
     await connectToDB();
@@ -107,6 +108,8 @@ export async function toggleSavedGlossaryItem(
     }
 
     await user.save();
+
+    revalidatePath(path);
 
     return JSON.parse(JSON.stringify(user));
   } catch (error) {

@@ -20,6 +20,7 @@ const CategoryItem = ({
   isUser,
   isUserAdmin,
   userId,
+  pathType = "sections",
 }: CategoryItemProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -39,7 +40,11 @@ const CategoryItem = ({
   const handleBookmarkClick = async () => {
     try {
       if (userId) {
-        const updatedUser = await toggleSavedGlossaryItem(userId, id);
+        const updatedUser = await toggleSavedGlossaryItem(
+          userId,
+          id,
+          `/${pathType}/${type}`,
+        );
 
         if (updatedUser) {
           setIsBookmarked(!isBookmarked);

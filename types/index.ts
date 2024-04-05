@@ -3,6 +3,7 @@ export type CategoryCardProps = {
   type: string;
   title: string;
   isUserAdmin: boolean;
+  linkType?: string;
 };
 
 export type CategoryItemProps = {
@@ -15,6 +16,7 @@ export type CategoryItemProps = {
   isUser: boolean;
   isUserAdmin: boolean;
   userId?: string;
+  pathType?: string;
 };
 
 export type TableProps = {

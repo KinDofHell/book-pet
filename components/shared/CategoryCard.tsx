@@ -5,11 +5,17 @@ import { CategoryCardProps } from "@/types";
 import { Button } from "@/components/ui/button";
 import CategoryForm from "@/components/shared/forms/CategoryForm";
 
-const CategoryCard = ({ id, title, type, isUserAdmin }: CategoryCardProps) => {
+const CategoryCard = ({
+  id,
+  title,
+  type,
+  isUserAdmin,
+  linkType = "sections",
+}: CategoryCardProps) => {
   return (
     <div className="w-full max-w-[500px] shadow-default bg-light-gradient dark:bg-dark-secondary-gradient dark:hover:bg-dark-gradient relative">
       <Link
-        href={`/sections/${type}`}
+        href={`/${linkType}/${type}`}
         className="w-full h-full inline-block p-8 text-center text-white text-xl uppercase tracking-wider"
       >
         {title}

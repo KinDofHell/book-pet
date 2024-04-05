@@ -100,6 +100,39 @@ export const getSavedGlossaryItemIdsByUserId = async (userId: string) => {
   }
 };
 
+export const getAllSavedGlossaryItemsByUserId = async (
+  type: string,
+  isAdmin: boolean,
+  userId: string,
+) => {
+  try {
+    await connectToDB();
+
+    const user = await User.findById(userId);
+
+    if (user) {
+      const category = await Category.findOne({ type: type });
+
+      if (category) {
+        const query = {
+          _id: { $in: user.savedGlossaryItems },
+          categoryId: category._id,
+          ...(!isAdmin && { isVisible: true }),
+        };
+
+        const glossaryItems = await GlossaryItem.find(query);
+        const jsonGlossaryItems = JSON.parse(JSON.stringify(glossaryItems));
+
+        revalidatePath(`/saved/${type}/`);
+
+        return jsonGlossaryItems;
+      }
+    }
+  } catch (e) {
+    handleError(e);
+  }
+};
+
 export const updateGlossaryItem = async ({
   isAdmin,
   glossaryItem,
