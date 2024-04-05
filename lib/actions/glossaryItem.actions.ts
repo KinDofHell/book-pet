@@ -10,6 +10,7 @@ import {
 } from "@/types";
 import Category from "@/lib/database/models/category.model";
 import { revalidatePath } from "next/cache";
+import User from "@/lib/database/models/user.model";
 
 export const createGlossaryItem = async (
   {
@@ -80,6 +81,20 @@ export const getGlossaryItemById = async (id: string) => {
     if (!glossaryItem) throw new Error("Glossary item not found");
 
     return JSON.parse(JSON.stringify(glossaryItem));
+  } catch (e) {
+    handleError(e);
+  }
+};
+
+export const getSavedGlossaryItemIdsByUserId = async (userId: string) => {
+  try {
+    await connectToDB();
+
+    const user = await User.findById(userId);
+
+    if (user) {
+      return JSON.stringify(user.savedGlossaryItems);
+    }
   } catch (e) {
     handleError(e);
   }

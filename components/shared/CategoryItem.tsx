@@ -7,7 +7,8 @@ import { formatDateTime } from "@/lib/utils";
 import { CategoryItemProps } from "@/types";
 import { Button } from "@/components/ui/button";
 import { toggleSavedGlossaryItem } from "@/lib/actions/user.action";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getSavedGlossaryItemIdsByUserId } from "@/lib/actions/glossaryItem.actions";
 
 const CategoryItem = ({
   id,
@@ -21,6 +22,19 @@ const CategoryItem = ({
   userId,
 }: CategoryItemProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchSavedItemsIds = async () => {
+      const savedItemsIds = await getSavedGlossaryItemIdsByUserId(userId);
+      if (!savedItemsIds) return;
+
+      setIsBookmarked(JSON.parse(savedItemsIds).includes(id));
+    };
+
+    fetchSavedItemsIds();
+  }, [userId, id]);
 
   const handleBookmarkClick = async () => {
     try {
