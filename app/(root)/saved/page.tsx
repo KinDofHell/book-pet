@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs";
-import { getAllCategories } from "@/lib/actions/category.actions";
+import { getAllSavedCategories } from "@/lib/actions/category.actions";
 import CategoryForm from "@/components/shared/forms/CategoryForm";
 import CategoryCard from "@/components/shared/CategoryCard";
 import { ICategory } from "@/lib/database/models/category.model";
@@ -8,8 +8,12 @@ import { createUser } from "@/lib/actions/user.action";
 const Page = async () => {
   const { sessionClaims } = auth();
   const isUserAdmin = (sessionClaims?.isUserAdmin as boolean) || false;
+  const userId = (sessionClaims?.userId as string) || "";
+  if (!userId) {
+    return;
+  }
 
-  let categories: ICategory[] = await getAllCategories(isUserAdmin);
+  let categories: ICategory[] = await getAllSavedCategories(isUserAdmin, userId);
 
   if (!isUserAdmin) {
     categories = categories.filter((category) => category.type !== "solving");

@@ -11,6 +11,7 @@ import Category from "@/lib/database/models/category.model";
 import { revalidatePath } from "next/cache";
 import GlossaryItem from "@/lib/database/models/glossaryItem.model";
 import { DEFAULT_CATEGORY_ID } from "@/constants";
+import User from "@/lib/database/models/user.model";
 
 export const createCategory = async ({
   categoryName,
@@ -65,6 +66,47 @@ export const getAllCategories = async (isAdmin: boolean) => {
     handleError(e);
   }
 };
+
+export const getAllSavedCategories = async (isAdmin: boolean, userId: string) => {
+  try {
+    await connectToDB();
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const allCategories = await Category.find();
+
+    if (isAdmin) {
+      return JSON.parse(JSON.stringify(allCategories));
+    }
+
+    const categoriesWithGlossaryItems = await Promise.all(
+        allCategories.map(async (category) => {
+          const glossaryItems = await GlossaryItem.find({
+            categoryId: category._id,
+            isVisible: true,
+            _id: { $in: user.savedGlossaryItems },
+          });
+
+          if (glossaryItems.length > 0) {
+            return category;
+          }
+
+          return null;
+        }),
+    );
+
+    const filteredCategories = categoriesWithGlossaryItems.filter(Boolean);
+
+    return JSON.parse(JSON.stringify(filteredCategories));
+  } catch (e) {
+    handleError(e);
+  }
+};
+
 
 export const updateCategory = async ({
   isAdmin,
