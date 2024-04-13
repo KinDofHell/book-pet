@@ -10,7 +10,7 @@ export const menuLinks = [
     route: "/sections",
   },
   {
-    label: "Примітки",
+    label: "Нотатки",
     route: "/notes",
   },
   {

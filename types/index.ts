@@ -103,24 +103,6 @@ export type GlossaryItemFormProps = {
   glossaryItemId?: string;
 };
 
-type TableInfoFields = {
-  [index: number]: {
-    key: `tableInfo.${number}.key`;
-    value: `tableInfo.${number}.value`;
-  };
-};
-
-export type GlossaryItemFormFields = {
-  title: string;
-  description: string;
-  history: string;
-  imageUrl: string;
-  categoryType: string;
-  isVisible: boolean;
-  additional?: string;
-  tableInfo: TableInfoFields;
-};
-
 export type CreateGlossaryItemParams = {
   title: string;
   description: string;
@@ -153,3 +135,9 @@ export type UpdateUserParams = {
   username: string;
   photo: string;
 };
+
+export type NoteFormProps  = {
+  mode: "CREATE" | "UPDATE";
+  noteData?: {id: string; title: string; content: string, relatedItemId?: string};
+  creatorId: string
+}
