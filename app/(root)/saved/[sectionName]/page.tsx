@@ -3,6 +3,7 @@ import CategoryItem from "@/components/shared/CategoryItem";
 import { IGlossaryItem } from "@/lib/database/models/glossaryItem.model";
 import { getAllSavedGlossaryItemsByUserId } from "@/lib/actions/glossaryItem.actions";
 import { CategoryTitles } from "@/constants";
+import BreadcrumbDynamic from "@/components/shared/Breadcrumb";
 
 const Page = async ({
   params: { sectionName },
@@ -21,8 +22,20 @@ const Page = async ({
     userId,
   );
 
+  const breadcrumbData = [
+    {
+      label: "Збережені категорії",
+      route: "saved",
+    },
+    {
+      label: CategoryTitles[type as keyof typeof CategoryTitles],
+      route: sectionName,
+    },
+  ];
+
   return (
     <>
+      <BreadcrumbDynamic routesArray={breadcrumbData} />
       <section className="w-full flex-center flex-col desktop:mt-6">
         <h1 className="h1-font">
           Збережені {CategoryTitles[type as keyof typeof CategoryTitles]}

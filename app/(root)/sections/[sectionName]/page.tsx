@@ -1,12 +1,10 @@
 import { auth } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
-import CategoryCard from "@/components/shared/CategoryCard";
 import CategoryItem from "@/components/shared/CategoryItem";
 import Link from "next/link";
 import { IGlossaryItem } from "@/lib/database/models/glossaryItem.model";
 import { getAllGlossaryItems } from "@/lib/actions/glossaryItem.actions";
 import { CategoryTitles } from "@/constants";
-import { convertObjectToKeyValuePairs } from "@/lib/utils";
+import BreadcrumbDynamic from "@/components/shared/Breadcrumb";
 
 const Page = async ({
   params: { sectionName },
@@ -24,8 +22,20 @@ const Page = async ({
     isUserAdmin,
   );
 
+  const breadcrumbData = [
+    {
+      label: "Категорії",
+      route: "sections",
+    },
+    {
+      label: CategoryTitles[type as keyof typeof CategoryTitles],
+      route: sectionName,
+    },
+  ];
+
   return (
     <>
+      <BreadcrumbDynamic routesArray={breadcrumbData} />
       <section className="w-full flex-center flex-col desktop:mt-6">
         <h1 className="h1-font">
           {CategoryTitles[type as keyof typeof CategoryTitles]}

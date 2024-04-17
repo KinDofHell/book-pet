@@ -1,6 +1,8 @@
-import {auth} from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import NoteForm from "@/components/shared/forms/NoteForm";
 import NoteCard from "@/components/shared/NoteCard";
+import { CategoryTitles } from "@/constants";
+import BreadcrumbDynamic from "@/components/shared/Breadcrumb";
 
 const Page = () => {
   const { sessionClaims } = auth();
@@ -8,16 +10,30 @@ const Page = () => {
   const userId = sessionClaims?.userId as string;
   const isUserAuth = sessionClaims !== null;
 
-  return <>
-    <section className="w-full flex-center flex-col desktop:mt-6">
-      {isUserAuth && <NoteForm mode="CREATE" creatorId={userId} />}
-      <div className="flex justify-center flex-wrap gap-8 w-full desktop:mt-6">
-        <NoteCard title="Перша долина" content="Перша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місце"/>
-        <NoteCard title="Перша долина" content="Перша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місце"/>
-        <NoteCard title="Перша долина" content="Перша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місце"/>
-        <NoteCard title="Перша долина" content="Перша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місце"/>
-      </div>
-    </section>
-  </>;
+  return (
+    <>
+      <section className="w-full flex-center flex-col desktop:mt-6">
+        {isUserAuth && <NoteForm mode="CREATE" creatorId={userId} />}
+        <div className="flex justify-center flex-wrap gap-8 w-full desktop:mt-6">
+          <NoteCard
+            title="Перша долина"
+            content="Перша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місце"
+          />
+          <NoteCard
+            title="Перша долина"
+            content="Перша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місце"
+          />
+          <NoteCard
+            title="Перша долина"
+            content="Перша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місце"
+          />
+          <NoteCard
+            title="Перша долина"
+            content="Перша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місцеПерша долина це цікаве місце"
+          />
+        </div>
+      </section>
+    </>
+  );
 };
 export default Page;

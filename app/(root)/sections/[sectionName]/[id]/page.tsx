@@ -2,12 +2,31 @@ import Image from "next/image";
 import Table from "@/components/shared/Table";
 import AccordionBlock from "@/components/shared/AccordionBlock";
 import { getGlossaryItemById } from "@/lib/actions/glossaryItem.actions";
+import BreadcrumbDynamic from "@/components/shared/Breadcrumb";
+import { CategoryTitles } from "@/constants";
 
-const Page = async ({ params: { id } }: { params: { id: string } }) => {
+const Page = async ({
+  params: { id, sectionName },
+}: {
+  params: { id: string; sectionName: string };
+}) => {
   const glossaryItem = await getGlossaryItemById(id);
+
+  const breadcrumbData = [
+    {
+      label: "Категорії",
+      route: "sections",
+    },
+    {
+      label: CategoryTitles[sectionName as keyof typeof CategoryTitles],
+      route: sectionName,
+    },
+    { label: glossaryItem?.title, route: id },
+  ];
 
   return (
     <article>
+      <BreadcrumbDynamic routesArray={breadcrumbData} />
       <section>
         <h1 className="h1-font text-center">{glossaryItem.title}</h1>
         <Image
