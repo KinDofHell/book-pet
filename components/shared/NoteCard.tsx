@@ -43,9 +43,14 @@ const NoteCard = ({title, content, linkToRelatedGlossaryItem}: NoteCardProps) =>
                     <AlertDialogCancel className="dark:text-black">
                         Закрити
                     </AlertDialogCancel>
-                    {/*<AlertDialogAction onClick={() => startTransition(handleAddNote)}>*/}
-                    {/*    {mode === "CREATE" ? "Додати нотатку" : "Зберегти зміни"}*/}
-                    {/*</AlertDialogAction>*/}
+                    <div className="w-full flex justify-between gap-2 tablet:justify-end">
+                        <AlertDialogAction className='bg-light-primary hover:bg-light-gradient dark:bg-white dark:text-black w-1/2 dark:hover:text-white tablet:w-auto'>
+                            Редагувати
+                        </AlertDialogAction>
+                        <AlertDialogAction className='bg-red-700 hover:bg-red-800 w-1/2 tablet:w-auto'>
+                            Видалити
+                        </AlertDialogAction>
+                    </div>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
