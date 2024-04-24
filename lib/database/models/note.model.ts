@@ -1,18 +1,22 @@
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, Types } from "mongoose";
 
 export interface INote extends Document {
   _id: string;
   title: string;
   text: string;
+  userId: Types.ObjectId; // Update the type here
   relatedGlossaryItemId?: string;
 }
 
-const NoteSchema = new Schema({
+const NoteSchema = new Schema<INote>({
   title: { type: String, required: true, unique: true },
   text: { type: String, required: true },
-  relatedGlossaryItem: { type: Schema.Types.ObjectId, ref: "GlossaryItem" },
+  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  relatedGlossaryItemId: {
+    type: Schema.Types.ObjectId,
+    ref: "GlossaryItem",
+    index: true,
+  },
 });
 
-const Note = models.Note || model("Note", NoteSchema);
-
-export default Note;
+export default models.Note || model<INote>("Note", NoteSchema);

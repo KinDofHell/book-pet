@@ -136,8 +136,21 @@ export type UpdateUserParams = {
   photo: string;
 };
 
-export type NoteFormProps  = {
+export type NoteFormProps = {
   mode: "CREATE" | "UPDATE";
-  noteData?: {id: string; title: string; content: string, relatedItemId?: string};
-  creatorId: string
-}
+  noteData?: {
+    id: string;
+    title: string;
+    content: string;
+    relatedItemId?: string;
+  };
+  creatorId: string;
+};
+
+export type CreateNoteParams = {
+  title: string;
+  text: string;
+  userId: string;
+  relatedGlossaryItem?: string;
+  path: string;
+};
