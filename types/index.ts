@@ -1,3 +1,5 @@
+import { IGlossaryItem } from "@/lib/database/models/glossaryItem.model";
+
 export type CategoryCardProps = {
   id: string;
   type: string;
@@ -84,16 +86,16 @@ export type CategoryFormProps = {
   isAdmin: boolean;
 };
 
-export interface IGlossaryItem {
-  title: string;
-  imageUrl: string;
-  description: string;
-  history: string;
-  additional?: string;
-  tableInfo: Record<string, any>[];
-  isVisible: boolean;
-  categoryId: string;
-}
+// export interface IGlossaryItem {
+//   title: string;
+//   imageUrl: string;
+//   description: string;
+//   history: string;
+//   additional?: string;
+//   tableInfo: Record<string, any>[];
+//   isVisible: boolean;
+//   categoryId: string;
+// }
 
 export type GlossaryItemFormProps = {
   type: "CREATE" | "UPDATE";
@@ -145,12 +147,19 @@ export type NoteFormProps = {
     relatedItemId?: string;
   };
   creatorId: string;
+  glossaryItems: IGlossaryItem[];
 };
 
 export type CreateNoteParams = {
   title: string;
   text: string;
   userId: string;
-  relatedGlossaryItem?: string;
+  relatedGlossaryItemId?: string;
+  path: string;
+};
+
+export type DeleteNoteParams = {
+  userId: string;
+  noteId: string;
   path: string;
 };

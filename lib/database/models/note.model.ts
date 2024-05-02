@@ -5,7 +5,10 @@ export interface INote extends Document {
   title: string;
   text: string;
   userId: Types.ObjectId; // Update the type here
-  relatedGlossaryItemId?: string;
+  relatedGlossaryItemId: {
+    type: Schema.Types.ObjectId;
+    ref: string;
+  };
 }
 
 const NoteSchema = new Schema<INote>({
@@ -15,7 +18,6 @@ const NoteSchema = new Schema<INote>({
   relatedGlossaryItemId: {
     type: Schema.Types.ObjectId,
     ref: "GlossaryItem",
-    index: true,
   },
 });
 

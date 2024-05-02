@@ -1,6 +1,6 @@
 "use server";
 
-import { CreateNoteParams } from "@/types";
+import { CreateNoteParams, DeleteNoteParams } from "@/types";
 import { handleError } from "@/lib/utils";
 import { connectToDB } from "@/lib/database";
 import { revalidatePath } from "next/cache";
@@ -10,7 +10,7 @@ import { Types } from "mongoose";
 export const createNote = async ({
   title,
   text,
-  relatedGlossaryItem,
+  relatedGlossaryItemId,
   path,
   userId,
 }: CreateNoteParams) => {
@@ -21,7 +21,7 @@ export const createNote = async ({
       title,
       text,
       userId,
-      ...(relatedGlossaryItem !== "" && { relatedGlossaryItem }),
+      ...(relatedGlossaryItemId !== "" && { relatedGlossaryItemId }),
     };
 
     const newNote = await Note.create(noteData);
@@ -42,9 +42,9 @@ export const getAllNotes = async (userId: string) => {
       throw new Error("Invalid user ID");
     }
 
-    const allNotes: INote[] = await Note.find({ userId });
-
-    console.log(allNotes);
+    const allNotes: INote[] = await Note.find({ userId }).populate(
+      "relatedGlossaryItemId",
+    );
 
     return JSON.parse(JSON.stringify(allNotes));
   } catch (e) {
@@ -52,46 +52,6 @@ export const getAllNotes = async (userId: string) => {
   }
 };
 
-//
-// export const getAllSavedCategories = async (isAdmin: boolean, userId: string) => {
-//     try {
-//         await connectToDB();
-//
-//         const user = await User.findById(userId);
-//
-//         if (!user) {
-//             throw new Error('User not found');
-//         }
-//
-//         const allCategories = await Category.find();
-//
-//         if (isAdmin) {
-//             return JSON.parse(JSON.stringify(allCategories));
-//         }
-//
-//         const categoriesWithGlossaryItems = await Promise.all(
-//             allCategories.map(async (category) => {
-//                 const glossaryItems = await GlossaryItem.find({
-//                     categoryId: category._id,
-//                     isVisible: true,
-//                     _id: { $in: user.savedGlossaryItems },
-//                 });
-//
-//                 if (glossaryItems.length > 0) {
-//                     return category;
-//                 }
-//
-//                 return null;
-//             }),
-//         );
-//
-//         const filteredCategories = categoriesWithGlossaryItems.filter(Boolean);
-//
-//         return JSON.parse(JSON.stringify(filteredCategories));
-//     } catch (e) {
-//         handleError(e);
-//     }
-// };
 //
 //
 // export const updateCategory = async ({
@@ -131,30 +91,24 @@ export const getAllNotes = async (userId: string) => {
 //     }
 // };
 //
-// export const deleteCategory = async ({
-//                                          isAdmin,
-//                                          categoryId,
-//                                          path,
-//                                      }: DeleteCategoryParams) => {
-//     if (!isAdmin) {
-//         throw new Error("Unauthorized");
-//     }
-//
-//     try {
-//         await connectToDB();
-//
-//         const deletedCategory = await Category.findByIdAndDelete(categoryId);
-//         if (deletedCategory) {
-//             revalidatePath(path);
-//         }
-//
-//         const updatedItems = await GlossaryItem.updateMany(
-//             { categoryId: categoryId },
-//             { $set: { categoryId: DEFAULT_CATEGORY_ID } },
-//         );
-//
-//         return { message: "Category deleted and related items updated" };
-//     } catch (e) {
-//         handleError(e);
-//     }
-// };
+export const deleteNote = async ({
+  userId,
+  noteId,
+  path,
+}: DeleteNoteParams) => {
+  try {
+    await connectToDB();
+
+    const deletedCategory = await Note.findOneAndDelete({
+      userId,
+      _id: noteId,
+    });
+    if (deletedCategory) {
+      revalidatePath(path);
+    }
+
+    return { message: "Note deleted" };
+  } catch (e) {
+    handleError(e);
+  }
+};

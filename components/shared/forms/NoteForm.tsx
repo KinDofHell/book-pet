@@ -20,7 +20,12 @@ import { Textarea } from "@/components/ui/textarea";
 import SelectGlossaryItemWithSearch from "@/components/shared/forms/SelectGlossaryItemWithSearch";
 import { createNote } from "@/lib/actions/note.actions";
 
-const NoteForm = ({ mode, noteData, creatorId }: NoteFormProps) => {
+const NoteForm = ({
+  mode,
+  noteData,
+  creatorId,
+  glossaryItems,
+}: NoteFormProps) => {
   const pathname = usePathname();
 
   const [newNoteTitle, setNewNoteTitle] = useState("");
@@ -40,7 +45,7 @@ const NoteForm = ({ mode, noteData, creatorId }: NoteFormProps) => {
         title: newNoteTitle.trim(),
         text: newNoteContent.trim(),
         userId: creatorId,
-        relatedGlossaryItem: newGlossaryItemRelated,
+        relatedGlossaryItemId: newGlossaryItemRelated,
         path: pathname,
       });
     } else if (noteData) {
@@ -90,7 +95,7 @@ const NoteForm = ({ mode, noteData, creatorId }: NoteFormProps) => {
               onChange={(e) => setNewNoteContent(e.target.value)}
             />
             <SelectGlossaryItemWithSearch
-              glossaryItems={[{ value: "hello" }]}
+              glossaryItems={glossaryItems}
               value={newGlossaryItemRelated}
               setOuterValue={setGlossaryItemRelated}
             />

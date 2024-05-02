@@ -56,6 +56,11 @@ export const getAllGlossaryItems = async (type: string, isAdmin: boolean) => {
   try {
     await connectToDB();
 
+    if (type === "all") {
+      const glossaryItems = await GlossaryItem.find();
+      return JSON.parse(JSON.stringify(glossaryItems));
+    }
+
     const category = await Category.findOne({ type: type });
 
     if (category) {
