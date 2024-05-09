@@ -163,3 +163,11 @@ export type DeleteNoteParams = {
   noteId: string;
   path: string;
 };
+
+export type UpdateNoteParams = {
+  noteId: string;
+  title: string;
+  content: string;
+  relatedItemId?: string;
+  path: string;
+};

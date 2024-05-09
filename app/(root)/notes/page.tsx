@@ -34,6 +34,7 @@ const Page = async () => {
               key={note._id}
               userId={userId}
               relatedGlossaryItem={note.relatedGlossaryItemId}
+              glossaryItems={glossaryItems}
             />
           ))}
         </div>

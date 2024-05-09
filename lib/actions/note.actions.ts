@@ -1,6 +1,6 @@
 "use server";
 
-import { CreateNoteParams, DeleteNoteParams } from "@/types";
+import { CreateNoteParams, DeleteNoteParams, UpdateNoteParams } from "@/types";
 import { handleError } from "@/lib/utils";
 import { connectToDB } from "@/lib/database";
 import { revalidatePath } from "next/cache";
@@ -42,9 +42,13 @@ export const getAllNotes = async (userId: string) => {
       throw new Error("Invalid user ID");
     }
 
-    const allNotes: INote[] = await Note.find({ userId }).populate(
-      "relatedGlossaryItemId",
-    );
+    const allNotes: INote[] = await Note.find({ userId }).populate({
+      path: "relatedGlossaryItemId",
+      populate: {
+        path: "categoryId",
+        model: "Category",
+      },
+    });
 
     return JSON.parse(JSON.stringify(allNotes));
   } catch (e) {
@@ -52,45 +56,45 @@ export const getAllNotes = async (userId: string) => {
   }
 };
 
-//
-//
-// export const updateCategory = async ({
-//                                          isAdmin,
-//                                          categoryId,
-//                                          categoryName,
-//                                          categoryType,
-//                                          path,
-//                                      }: UpdateCategoryParams) => {
-//     if (!isAdmin) {
-//         throw new Error("Unauthorized");
-//     }
-//
-//     try {
-//         await connectToDB();
-//
-//         const categoryToUpdate = await Category.findById(categoryId);
-//         if (!categoryToUpdate) {
-//             throw new Error("Category not found");
-//         }
-//
-//         const updatedCategory = await Category.findOneAndUpdate(
-//             { _id: categoryId },
-//             { $set: { name: categoryName, type: categoryType } },
-//             { new: true },
-//         );
-//
-//         if (!updatedCategory) {
-//             throw new Error("Failed to update the category");
-//         }
-//
-//         revalidatePath(path);
-//
-//         return JSON.parse(JSON.stringify(updatedCategory));
-//     } catch (e) {
-//         handleError(e);
-//     }
-// };
-//
+export const updateNote = async ({
+  noteId,
+  title,
+  content,
+  relatedItemId,
+  path,
+}: UpdateNoteParams) => {
+  try {
+    await connectToDB();
+
+    const noteToUpdate = await Note.findById(noteId);
+    if (!noteToUpdate) {
+      throw new Error("Note not found");
+    }
+
+    const updatedNote = await Note.findOneAndUpdate(
+      { _id: noteId },
+      {
+        $set: {
+          title: title,
+          content: content,
+          relatedGlossaryItemId: relatedItemId ? relatedItemId : "",
+        },
+      },
+      { new: true },
+    );
+
+    if (!updatedNote) {
+      throw new Error("Failed to update the note");
+    }
+
+    revalidatePath(path);
+
+    return JSON.parse(JSON.stringify(updatedNote));
+  } catch (e) {
+    handleError(e);
+  }
+};
+
 export const deleteNote = async ({
   userId,
   noteId,

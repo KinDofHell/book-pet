@@ -23,7 +23,7 @@ import { IGlossaryItem } from "@/lib/database/models/glossaryItem.model";
 
 type SelectGlossaryItemWithSearchProps = {
   glossaryItems: IGlossaryItem[];
-  value?: string;
+  value?: IGlossaryItem;
   setOuterValue: Dispatch<SetStateAction<string>>;
 };
 
@@ -43,10 +43,14 @@ const SelectGlossaryItemWithSearch = ({
           aria-expanded={open}
           className="w-full justify-between mt-3"
         >
-          {value
-            ? glossaryItems?.find((item: IGlossaryItem) => item._id === value)
-                ?.title
-            : "..."}
+          {typeof value === "object"
+            ? glossaryItems?.find(
+                (item: IGlossaryItem) => item._id === value._id,
+              )?.title
+            : typeof value !== "undefined"
+              ? glossaryItems?.find((item: IGlossaryItem) => item._id === value)
+                  ?.title
+              : "..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -61,14 +65,18 @@ const SelectGlossaryItemWithSearch = ({
                   key={glossaryItem._id}
                   value={glossaryItem._id}
                   onSelect={(currentValue) => {
-                    setOuterValue(currentValue === value ? "" : currentValue);
+                    setOuterValue(
+                      currentValue === value?._id ? "" : currentValue,
+                    );
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === glossaryItem._id ? "opacity-100" : "opacity-0",
+                      value?._id === glossaryItem._id
+                        ? "opacity-100"
+                        : "opacity-0",
                     )}
                   />
                   {glossaryItem.title}

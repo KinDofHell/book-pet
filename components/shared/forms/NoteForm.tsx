@@ -18,7 +18,8 @@ import { NoteFormProps } from "@/types";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import SelectGlossaryItemWithSearch from "@/components/shared/forms/SelectGlossaryItemWithSearch";
-import { createNote } from "@/lib/actions/note.actions";
+import { createNote, updateNote } from "@/lib/actions/note.actions";
+import { updateCategory } from "@/lib/actions/category.actions";
 
 const NoteForm = ({
   mode,
@@ -30,12 +31,14 @@ const NoteForm = ({
 
   const [newNoteTitle, setNewNoteTitle] = useState("");
   const [newNoteContent, setNewNoteContent] = useState("");
-  const [newGlossaryItemRelated, setGlossaryItemRelated] = useState("");
+  const [newGlossaryItemRelated, setGlossaryItemRelated] = useState<any>("");
 
   useEffect(() => {
     if (mode === "UPDATE" && noteData) {
       setNewNoteTitle(noteData.title);
       setNewNoteContent(noteData.content);
+      if (noteData.relatedItemId)
+        setGlossaryItemRelated(noteData.relatedItemId);
     }
   }, [mode, noteData]);
 
@@ -49,13 +52,13 @@ const NoteForm = ({
         path: pathname,
       });
     } else if (noteData) {
-      // updateCategory({
-      //     isAdmin,
-      //     categoryId: categoryData.id,
-      //     categoryName: newCategoryName.trim(),
-      //     categoryType: newCategoryType.trim(),
-      //     path: pathname,
-      // });
+      updateNote({
+        noteId: noteData.id,
+        title: newNoteTitle.trim(),
+        content: newNoteContent.trim(),
+        relatedItemId: newGlossaryItemRelated,
+        path: pathname,
+      });
     }
   };
 
