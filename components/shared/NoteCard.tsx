@@ -73,7 +73,7 @@ const NoteCard = ({
             <AlertDialogDescription className="border-t border-black pt-4 dark:border-white">
               {relatedGlossaryItem && (
                 <>
-                  <span>Прив'язаний запис: </span>
+                  <span>{`Прив'язаний запис:`} </span>
                   <Link
                     href={`/sections/${relatedGlossaryItem.categoryId.type}/${relatedGlossaryItem._id}`}
                     className="p-1 rounded bg-light-primary text-black dark:bg-white"
