@@ -77,7 +77,7 @@ export const updateNote = async ({
         $set: {
           title: title,
           content: content,
-          relatedGlossaryItemId: relatedItemId ? relatedItemId : "",
+          relatedGlossaryItemId: relatedItemId ? relatedItemId : null,
         },
       },
       { new: true },
