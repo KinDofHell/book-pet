@@ -4,7 +4,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
-import { Slash } from "lucide-react";
 
 type RouteArray = { label: string; route: string };
 
@@ -22,7 +21,11 @@ const BreadcrumbDynamic = ({ routesArray }: BreadcrumbDynamicProps) => {
         return (
           <>
             <BreadcrumbItem>
-              <Link href={href}>{route.label}</Link>
+              {index !== routesArray.length - 1 ? (
+                <Link href={href}>{route.label}</Link>
+              ) : (
+                <span>{route.label}</span>
+              )}
             </BreadcrumbItem>
             {index !== routesArray.length - 1 && (
               <BreadcrumbSeparator>•</BreadcrumbSeparator>
