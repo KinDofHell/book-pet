@@ -23,7 +23,7 @@ const Header = () => {
           <ThemeSwitcher />
         </div>
         <div className="hidden desktop:flex">
-          <Navbar />
+          <Navbar isMobile={false} />
         </div>
         <div className="flex-center gap-4">
           {userId ? (

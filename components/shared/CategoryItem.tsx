@@ -109,6 +109,7 @@ const CategoryItem = ({
                 alt="edit icon"
                 width={18}
                 height={18}
+                className="bg-primary"
               />
             </Link>
             <DeleteConfirmation

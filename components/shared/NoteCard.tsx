@@ -90,7 +90,7 @@ const NoteCard = ({
             </AlertDialogCancel>
             <div className="w-full flex justify-between gap-2 tablet:justify-end">
               <AlertDialogAction
-                className="bg-red-700 hover:bg-red-800 w-1/2 tablet:w-auto"
+                className="bg-red-700 hover:bg-red-800 w-full tablet:w-auto"
                 onClick={() =>
                   startTransition(async () => {
                     await deleteNote({

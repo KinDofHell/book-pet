@@ -19,7 +19,7 @@ import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import SelectGlossaryItemWithSearch from "@/components/shared/forms/SelectGlossaryItemWithSearch";
 import { createNote, updateNote } from "@/lib/actions/note.actions";
-import { updateCategory } from "@/lib/actions/category.actions";
+import { Button } from "@/components/ui/button";
 
 const NoteForm = ({
   mode,
@@ -32,6 +32,10 @@ const NoteForm = ({
   const [newNoteTitle, setNewNoteTitle] = useState("");
   const [newNoteContent, setNewNoteContent] = useState("");
   const [newGlossaryItemRelated, setGlossaryItemRelated] = useState<any>("");
+  const [error, setError] = useState("");
+  const [titleError, setTitleError] = useState("");
+  const [contentError, setContentError] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (mode === "UPDATE" && noteData) {
@@ -42,30 +46,65 @@ const NoteForm = ({
     }
   }, [mode, noteData]);
 
-  const handleAddNote = () => {
-    if (mode === "CREATE") {
-      createNote({
-        title: newNoteTitle.trim(),
-        text: newNoteContent.trim(),
-        userId: creatorId,
-        relatedGlossaryItemId: newGlossaryItemRelated,
-        path: pathname,
-      });
-    } else if (noteData) {
-      updateNote({
-        noteId: noteData.id,
-        title: newNoteTitle.trim(),
-        content: newNoteContent.trim(),
-        relatedItemId: newGlossaryItemRelated,
-        path: pathname,
-      });
+  const validateFields = () => {
+    let valid = true;
+    if (!newNoteTitle.trim()) {
+      setTitleError("Заголовок є обов'язковим");
+      valid = false;
+    } else {
+      setTitleError("");
+    }
+    if (!newNoteContent.trim()) {
+      setContentError("Текст нотатки є обов'язковим");
+      valid = false;
+    } else {
+      setContentError("");
+    }
+    return valid;
+  };
+
+  const handleAddNote = async () => {
+    setError("");
+    if (!validateFields()) return;
+    try {
+      if (mode === "CREATE") {
+        await createNote({
+          title: newNoteTitle.trim(),
+          text: newNoteContent.trim(),
+          userId: creatorId,
+          relatedGlossaryItemId: newGlossaryItemRelated,
+          path: pathname,
+        });
+      } else if (noteData) {
+        await updateNote({
+          noteId: noteData.id,
+          title: newNoteTitle.trim(),
+          content: newNoteContent.trim(),
+          relatedItemId: newGlossaryItemRelated,
+          path: pathname,
+        });
+      }
+
+      setNewNoteTitle("");
+      setNewNoteContent("");
+      setGlossaryItemRelated("");
+      setIsModalOpen(false); // Close the modal on success
+    } catch (error: any) {
+      setError(
+        "Помилка створення нотатки! Переконайтеся, що заголовок унікальний!",
+      );
     }
   };
 
   return (
-    <AlertDialog>
+    <AlertDialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <AlertDialogTrigger
-        className={`w-full max-w-[425px] py-3 uppercase tracking-wide text-black ${mode === "CREATE" ? "bg-white shadow-default mb-6 dark:bg-dark-primary hover:text-white hover:bg-light-gradient dark:hover:bg-dark-secondary-gradient" : ""} dark:text-white`}
+        className={`w-full max-w-[425px] py-3 uppercase tracking-wide text-black ${
+          mode === "CREATE"
+            ? "bg-white shadow-default mb-6 dark:bg-dark-primary hover:text-white hover:bg-light-gradient dark:hover:bg-dark-secondary-gradient"
+            : ""
+        } dark:text-white`}
+        onClick={() => setIsModalOpen(true)}
       >
         {mode === "CREATE" ? (
           "Додати нотатку"
@@ -75,6 +114,7 @@ const NoteForm = ({
             alt="edit icon"
             width={18}
             height={18}
+            className="bg-light-primary rounded dark:bg-transparent"
           />
         )}
       </AlertDialogTrigger>
@@ -84,19 +124,26 @@ const NoteForm = ({
             {mode === "CREATE" ? "Нова нотатка" : "Зберегти нотатку"}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            <Input
-              type="text"
-              placeholder="Заголовок"
-              className="input-field mt-3"
-              value={newNoteTitle}
-              onChange={(e) => setNewNoteTitle(e.target.value)}
-            ></Input>
-            <Textarea
-              placeholder="Текст нотатки"
-              className="input-field mt-3"
-              value={newNoteContent}
-              onChange={(e) => setNewNoteContent(e.target.value)}
-            />
+            {error && <p className="text-red-500">{error}</p>}
+            <div className="mt-3">
+              <Input
+                type="text"
+                placeholder="Заголовок"
+                className="input-field"
+                value={newNoteTitle}
+                onChange={(e) => setNewNoteTitle(e.target.value)}
+              />
+              {titleError && <p className="text-red-500">{titleError}</p>}
+            </div>
+            <div className="mt-3">
+              <Textarea
+                placeholder="Текст нотатки"
+                className="input-field"
+                value={newNoteContent}
+                onChange={(e) => setNewNoteContent(e.target.value)}
+              />
+              {contentError && <p className="text-red-500">{contentError}</p>}
+            </div>
             <SelectGlossaryItemWithSearch
               glossaryItems={glossaryItems}
               value={newGlossaryItemRelated}
@@ -108,12 +155,13 @@ const NoteForm = ({
           <AlertDialogCancel className="dark:text-black">
             Відмінити
           </AlertDialogCancel>
-          <AlertDialogAction onClick={() => startTransition(handleAddNote)}>
+          <Button onClick={() => startTransition(handleAddNote)}>
             {mode === "CREATE" ? "Додати нотатку" : "Зберегти зміни"}
-          </AlertDialogAction>
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 };
+
 export default NoteForm;

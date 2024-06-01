@@ -35,7 +35,7 @@ const MobileMenu = () => {
               </Link>
             </SheetTitle>
           </SheetHeader>
-          <Navbar />
+          <Navbar isMobile={true} />
         </SheetContent>
       </Sheet>
     </nav>
