@@ -63,37 +63,51 @@ const NoteForm = ({
     return valid;
   };
 
-  const handleAddNote = async () => {
+  const handleAddNote = () => {
     setError("");
     if (!validateFields()) return;
-    try {
+
+    startTransition(() => {
       if (mode === "CREATE") {
-        await createNote({
+        createNote({
           title: newNoteTitle.trim(),
           text: newNoteContent.trim(),
           userId: creatorId,
           relatedGlossaryItemId: newGlossaryItemRelated,
           path: pathname,
-        });
+        })
+          .then(() => {
+            setNewNoteTitle("");
+            setNewNoteContent("");
+            setGlossaryItemRelated("");
+            setIsModalOpen(false);
+          })
+          .catch((error: any) => {
+            setError(
+              "Помилка створення нотатки! Переконайтеся, що заголовок унікальний!",
+            );
+          });
       } else if (noteData) {
-        await updateNote({
+        updateNote({
           noteId: noteData.id,
           title: newNoteTitle.trim(),
           content: newNoteContent.trim(),
           relatedItemId: newGlossaryItemRelated,
           path: pathname,
-        });
+        })
+          .then(() => {
+            setNewNoteTitle("");
+            setNewNoteContent("");
+            setGlossaryItemRelated("");
+            setIsModalOpen(false);
+          })
+          .catch((error: any) => {
+            setError(
+              "Помилка створення нотатки! Переконайтеся, що заголовок унікальний!",
+            );
+          });
       }
-
-      setNewNoteTitle("");
-      setNewNoteContent("");
-      setGlossaryItemRelated("");
-      setIsModalOpen(false); // Close the modal on success
-    } catch (error: any) {
-      setError(
-        "Помилка створення нотатки! Переконайтеся, що заголовок унікальний!",
-      );
-    }
+    });
   };
 
   return (
